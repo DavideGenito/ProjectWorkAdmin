@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { UserService } from '../../services/user-service';
 
 @Component({
   selector: 'app-side-bar',
@@ -7,4 +8,12 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   templateUrl: './side-bar.html',
   styleUrl: './side-bar.css',
 })
-export class SideBar {}
+export class SideBar {
+  constructor(private userService: UserService, private router: Router) {}
+
+  Logout() {
+    this.userService.Logout();
+    this.router.navigate(['/login']);
+    
+  }
+}
