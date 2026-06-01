@@ -1,1 +1,49 @@
-<p>reservations works!</p>
+<section class="reservations-page">
+  <div class="filter-panel">
+    <div>
+      <label>
+        Data inizio
+        <input type="date" [(ngModel)]="fromDate" />
+      </label>
+    </div>
+    <div>
+      <label>
+        Data fine
+        <input type="date" [(ngModel)]="toDate" />
+      </label>
+    </div>
+    <button type="button" (click)="loadBookings()">Aggiorna</button>
+  </div>
+
+  <div class="table-container">
+    <table class="booking-table">
+      <thead>
+        <tr>
+          <th class="sortable" (click)="setSort('userName')">Nome {{ sortColumn === 'userName' ? (sortAsc ? '▲' : '▼') : '' }}</th>
+          <th class="sortable" (click)="setSort('userSurname')">Cognome {{ sortColumn === 'userSurname' ? (sortAsc ? '▲' : '▼') : '' }}</th>
+          <th class="sortable" (click)="setSort('spaceName')">Spazio {{ sortColumn === 'spaceName' ? (sortAsc ? '▲' : '▼') : '' }}</th>
+          <th class="sortable" (click)="setSort('date')">Data {{ sortColumn === 'date' ? (sortAsc ? '▲' : '▼') : '' }}</th>
+          <th class="sortable" (click)="setSort('price')">Costo {{ sortColumn === 'price' ? (sortAsc ? '▲' : '▼') : '' }}</th>
+          <th>Azioni</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let booking of sortedBookings">
+          <td>{{ getUserName(booking) }}</td>
+          <td>{{ getUserSurname(booking) }}</td>
+          <td>{{ getSpaceName(booking) }}</td>
+          <td>{{ getDateValue(booking) }}</td>
+          <td><!--{{ getTimeValue(booking) }}--></td>>
+          <td>{{ getPrice(booking) | number:'1.2-2' }} €</td>
+          <td class="actions">
+            <button type="button" (click)="cancelReservation(booking)">Annulla</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="empty-state" *ngIf="sortedBookings.length === 0">
+      Nessuna prenotazione trovata nel periodo selezionato.
+    </div>
+  </div>
+</section>
