@@ -1,1 +1,59 @@
-<p>create-reservation works!</p>
+<h1>FUNZIONA</h1>
+<div class="booking-container">
+  <h2>Creazione Prenotazione Posti</h2>
+
+  <form #bookingForm="ngForm" (ngSubmit)="addBooking()">
+    
+    <div class="form-group">
+      <label for="utente">Seleziona Utente:</label>
+      <select id="utente" name="utente" [(ngModel)]="prenotazione.utenteId" required>
+        <option value="" disabled selected>Scegli un utente...</option>
+        <option *ngFor="let utente of listaUtenti" [value]="utente.id">
+          {{ utente.nome }} {{ utente.cognome }}
+        </option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="tipoPostazione">Tipo Postazione:</label>
+      <select id="tipoPostazione" name="tipoPostazione" [(ngModel)]="prenotazione.tipoPostazione" (change)="onTipoPostazioneChange()" required>
+        <option value="" disabled selected>Scegli il tipo di postazione...</option>
+        <option value="ufficio">Ufficio</option>
+        <option value="sala_riunioni">Sala Riunioni</option>
+        <option value="posto_singolo">Posto Singolo</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="data">Data Prenotazione:</label>
+      <input type="date" id="data" name="data" [(ngModel)]="prenotazione.data" required />
+    </div>
+
+    <div class="form-group" *ngIf="prenotazione.tipoPostazione === 'ufficio' || prenotazione.tipoPostazione === 'posto_singolo'">
+      <label for="slotMezzaGiornata">Durata Prenotazione:</label>
+      <select id="slotMezzaGiornata" name="slotMezzaGiornata" [(ngModel)]="prenotazione.slotOrario" required>
+        <option value="" disabled selected>Scegli la fascia oraria...</option>
+        <option value="mattina">Mattina (08:00 - 13:00)</option>
+        <option value="pomeriggio">Pomeriggio (14:00 - 19:00)</option>
+        <option value="giornata_intera">Giornata Intera</option>
+      </select>
+    </div>
+
+    <div class="form-group" *ngIf="prenotazione.tipoPostazione === 'sala_riunioni'">
+      <label for="slotOrario">Fascia Oraria (Slot di 1 ora):</label>
+      <select id="slotOrario" name="slotOrario" [(ngModel)]="prenotazione.slotOrario" required>
+        <option value="" disabled selected>Scegli l'ora...</option>
+        <option *ngFor="let ora of slotOrariSala" [value]="ora">
+          {{ ora }}
+        </option>
+      </select>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" [disabled]="!bookingForm.form.valid" class="btn-conferma">
+        Conferma Prenotazione
+      </button>
+    </div>
+
+  </form>
+</div>
