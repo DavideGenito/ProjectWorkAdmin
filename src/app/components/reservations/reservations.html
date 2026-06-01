@@ -1,1 +1,70 @@
-<p>reservations works!</p>
+<!--
+{
+    "id": 9,
+    "start": "2026-05-30T09:00:00",
+    "end": "2026-05-30T10:00:00",
+    "space": {
+      "id": 1,
+      "name": "Sala Riunioni Grande",
+      "type": "Sala Riunioni",
+      "people": 12,
+      "slotPrice": 40
+    },
+    "user": {
+      "id": 1,
+      "firstName": "Mario",
+      "lastName": "Rossi",
+      "email": "rossi.mario@gmail.com",
+      "credit": 100,
+      "role": "Cliente"
+    }
+  }
+-->
+
+<div class="container">
+    <h2 class="mb-4">Reservations</h2>
+    <div class="mb-3 row">
+        <div class="col-sm-10">
+            <input type="text" class="form-control" placeholder="Search reservations by user name...">
+        </div>
+        <div class="col-sm-2">
+            <button class="btn btn-primary w-100">
+                <i class="bi bi-search"></i> Search
+            </button>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Start time</th>
+                    <th scope="col">End time</th>
+                    <th scope="col">Space</th>
+                    <th scope="col">User</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>25</td>
+                    <td>2026-05-30 09:00</td>
+                    <td>2026-05-30 10:00</td>
+                    <td>Sala Riunioni Grande</td>
+                    <td>Mario Rossi</td>
+                    <td>
+                        <button class="btn btn-sm btn-secondary me-2">
+                            <i class="bi bi-info-circle"></i> View
+                        </button>
+                        <button class="btn btn-sm btn-primary me-2">
+                            <i class="bi bi-pencil"></i> Edit
+                        </button>
+                        <button class="btn btn-sm btn-danger">
+                            <i class="bi bi-trash"></i> Delete
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

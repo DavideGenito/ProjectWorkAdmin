@@ -1,1 +1,32 @@
-<p>side-bar works!</p>
+<div class="d-flex flex-column bg-body-secondary p-3 h-100">
+    <h1 class="fs-4 mb-3">Admin Panel</h1>
+    <ul class="nav nav-pills flex-column mb-auto">
+        <li class="nav-item">
+            <!-- routerLinkActiveOptions specify that the dashboard is at the exact / link -->
+            <a class="nav-link" routerLink="/dashboard" routerLinkActive="active">
+                <i class="bi bi-grid"></i> Dashboard
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" routerLink="/users" routerLinkActive="active">
+                <i class="bi bi-people"></i> Users
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" routerLink="/reservations" routerLinkActive="active">
+                <i class="bi bi-calendar3-event"></i> Reservations
+            </a>
+        </li>
+    </ul>
+    <hr>
+    <div class="dropdown">
+        <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-person-circle"></i> Admin
+        </button>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" routerLink="/profile" routerLinkActive="active">Profile</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" routerLink="/logout" routerLinkActive="active">Logout</a></li>
+        </ul>
+    </div>
+</div>
