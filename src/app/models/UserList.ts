@@ -27,4 +27,5 @@ export class UserList {
             this.allUser.splice(index,1)
         }
     }
+    
 }

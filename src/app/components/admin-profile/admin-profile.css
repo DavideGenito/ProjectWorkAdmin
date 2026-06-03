@@ -63,11 +63,6 @@ h2 {
     font-weight: 400;
     transition: opacity 0.15s ease-in-out;
 }
-
-.btn:hover {
-    opacity: 0.85;
-}
-
 .btn-primary {
     background-color: #0d6efd;
     color: #ffffff;

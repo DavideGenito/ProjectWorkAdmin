@@ -32,4 +32,8 @@ export class AdminService {
     return this.http.delete(`${this.host}/admin/bookings/${bookingId}`);
   }
 
+  getUser(id: number) {
+    return this.http.get(`${this.host}/admin/users/${id}`);
+  }
+
 }
