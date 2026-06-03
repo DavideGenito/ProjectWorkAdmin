@@ -11,21 +11,21 @@ export class AdminService {
 
   constructor(private http: HttpClient) {}
 
-  getBookings(from: Date, to: Date): Observable<ReservationModel[]> {
-    return this.http.get<ReservationModel []>(`${this.host}/admin/bookings?from=${from.toISOString()}&to=${to.toISOString()}`);
+  getBookings(from: string, to: string): Observable<ReservationModel[]> {
+    return this.http.get<ReservationModel []>(`${this.host}/admin/bookings?from=${from}&to=${to}`);
   }
 
   getBooking(bookingId:number): Observable<ReservationModel> {
     return this.http.get<ReservationModel>(`${this.host}/admin/bookings/${bookingId}`);
   }
 
-  newBooking(uid: number, sId: number) {
+  newBooking(uid: number, sId: number): Observable<ReservationModel> {
     const body = {
       userId: uid,
       slotId: sId,
     };
 
-    return this.http.post(`${this.host}/admin/bookings`, body);
+    return this.http.post<ReservationModel>(`${this.host}/admin/bookings`, body);
   }
 
   removeBooking(bookingId: number) {
@@ -34,6 +34,13 @@ export class AdminService {
 
   getUser(id: number) {
     return this.http.get(`${this.host}/admin/users/${id}`);
+  }
+  getCurrentUser() {
+    return this.http.get(`${this.host}/profile`);
+  }
+
+  getSpace(id: number) {
+    return this.http.get(`${this.host}/admin/spaces/${id}`);
   }
 
 }

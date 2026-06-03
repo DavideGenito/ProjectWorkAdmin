@@ -2,12 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AdminService } from '../../services/admin-service';
-<<<<<<< HEAD
-import { ReservationModel } from '../../models/Reservation-Model';
-=======
-import { routes } from '../../app.routes';
 import { Router } from '@angular/router';
->>>>>>> origin/Sviluppo
+import { ReservationModel } from '../../models/Reservation-Model';
+import { ChangeDetectorRef } from '@angular/core';
 
 type SortColumn = 'userName' | 'userSurname' | 'spaceName' | 'date' | 'time' | 'price';
 
@@ -19,34 +16,26 @@ type SortColumn = 'userName' | 'userSurname' | 'spaceName' | 'date' | 'time' | '
   styleUrls: ['./reservations.css'],
 })
 export class Reservations implements OnInit {
-<<<<<<< HEAD
   bookings: ReservationModel[] = [];
-  fromDate = this.formatDateInput(new Date(Date.now()));
-  toDate = this.formatDateInput(new Date());
-=======
-  bookings: any[] = [];
-  fromDate = this.formatDateInput(new Date(Date.now() - 86400));
-  toDate = this.formatDateInput(new Date(Date.now()));
->>>>>>> origin/Sviluppo
+  fromDate = `${new Date().getFullYear()}-${String(new Date().getMonth()).padStart(2, '0')}-${String(new Date().getDate()).padStart(2, '0')}`;
+  toDate = `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}-${String(new Date().getDate()).padStart(2, '0')}`;
   sortColumn: SortColumn = 'date';
   sortAsc = true;
 
-  constructor(private service: AdminService, private router: Router) {}
+  constructor(private service: AdminService, private router: Router, private cd: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.loadBookings();
-    console.log(this.bookings);
   }
 
   loadBookings() {
-    this.service.getBookings(new Date(this.fromDate), new Date(this.toDate)).subscribe({
-      next: (data) => {
-        this.bookings = Array.isArray(data) ? data : [];
-      },
-      error: (err) => {
-        console.error(err);
-      },
-    });
+    this.service.getBookings(this.fromDate, this.toDate).subscribe(
+      b => {
+        this.bookings = b;
+        this.cd.detectChanges();
+        console.log(this.bookings);
+      }
+    );
   }
 
   formatDateInput(date: Date): string {

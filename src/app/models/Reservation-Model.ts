@@ -5,6 +5,7 @@ export class ReservationModel {
   user: User = new User('', '', '', 0, '', '');
   start: Date | undefined = new Date();
   end: Date | undefined = new Date();
+  id: number = 0;
   slotId: number = 0;
   space: Space = new Space();
   price: number = 0;

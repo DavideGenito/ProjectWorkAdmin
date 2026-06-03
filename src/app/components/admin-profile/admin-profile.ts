@@ -1,25 +1,32 @@
 import { Component, OnInit } from '@angular/core';
 import { AdminService } from '../../services/admin-service';
 import { ActivatedRoute } from '@angular/router';
+import { User } from '../../models/User';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-admin-profile',
-  imports: [],
   templateUrl: './admin-profile.html',
-  styleUrl: './admin-profile.css',
+  styleUrls: ['./admin-profile.css'],
 })
 export class AdminProfile implements OnInit {
-
-  constructor(private service: AdminService, private route: ActivatedRoute) {}
+  currentUser : User | any;
+  constructor(private service: AdminService, private route: ActivatedRoute, private cd: ChangeDetectorRef) {}
   
   ngOnInit() {
-    let idParam = Number(this.route.snapshot.paramMap.get('id'));
-    this.service.getUser(idParam);
+    this.getUser();
   }
   
-  getUser(idParam: number) {
-    console.log(this.service.getUser(idParam));
-    return this.service.getUser(idParam);
+  getUser() {
+    this.service.getCurrentUser().subscribe(
+      (user: any) => {
+        this.currentUser = user;
+        this.cd.detectChanges();
+        console.log(this.currentUser);
+      },
+      (err: any) => {
+        console.error('Errore nel recupero dell\'utente corrente', err);
+      }
+    );
   }
-  
 }

@@ -8,11 +8,10 @@
       <select id="utente" name="utente" [(ngModel)]="prenotazione.utenteId" required>
         <option value="" disabled selected>Scegli un utente...</option>
         <option *ngFor="let utente of listaUtenti" [value]="utente.id">
-          {{ utente.nome }} {{ utente.cognome }}
+          {{ utente.firstName }} {{ utente.lastName }}
         </option>
       </select>
     </div>
-
     <div class="form-group">
       <label for="tipoPostazione">Tipo Postazione:</label>
       <select id="tipoPostazione" name="tipoPostazione" [(ngModel)]="prenotazione.tipoPostazione" (change)="onTipoPostazioneChange()" required>
@@ -21,6 +20,33 @@
         <option value="sala_riunioni">Sala Riunioni</option>
         <option value="posto_singolo">Posto Singolo</option>
       </select>
+    </div>
+
+    <div class="form-group" *ngIf="prenotazione.tipoPostazione === 'sala_riunioni'">
+      <label for="PostazioneRiunioni">Postazione:</label>
+      <select id="PostazioneRiunioni" name="PostazioneRiunioni" [(ngModel)]="prenotazione.tipoPostazione" required>
+        <option value="" disabled selected>Scegli la postazione...</option>
+        <option value="sala_riunioni_grande">Sala Riunioni Grande</option>
+        <option value="sala_riunioni_piccola">Sala Riunioni Piccola</option>
+      </select>
+    </div>
+    <div class="form-group" *ngIf="prenotazione.tipoPostazione === 'ufficio'">
+      <label for="PostazioneUfficio">Postazione:</label>
+      <select id="PostazioneUfficio" name="PostazioneUfficio" [(ngModel)]="prenotazione.tipoPostazione" required>
+        <option value="" disabled selected>Scegli la postazione...</option>
+        <option value="ufficio_1">Ufficio 1</option>
+        <option value="ufficio_2">Ufficio 2</option>
+        <option value="ufficio_3">Ufficio 3</option>
+      </select>
+    </div>
+        <div class="form-group" *ngIf="prenotazione.tipoPostazione === 'posto_singolo'">
+      <label for="PostazioneSingola">Postazione:</label>
+      <select id="PostazioneSingola" name="PostazioneSingola" [(ngModel)]="prenotazione.tipoPostazione" required>
+        <option value="" disabled selected>Scegli la postazione...</option>
+        @for (b of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]; track $index) {
+          <option value="posto_singolo_{{b}}">Posto Singolo {{b}}</option>
+        }
+        </select>
     </div>
 
     <div class="form-group">

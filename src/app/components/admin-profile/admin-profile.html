@@ -6,19 +6,19 @@
             <div class="profile-details">
                 <div class="detail-row">
                     <span class="label">Name:</span>
-                    <span class="value"></span>
+                    <span class="value">{{ currentUser?.firstName }}</span>
                 </div>
                 <div class="detail-row">
                     <span class="label">Surname:</span>
-                    <span class="value">Rossi</span>
+                    <span class="value">{{ currentUser?.lastName }}</span>
                 </div>
                 <div class="detail-row">
                     <span class="label">Email:</span>
-                    <span class="value">mario.rossi@email.com</span>
+                    <span class="value">{{ currentUser?.email }}</span>
                 </div>
                 <div class="detail-row">
                     <span class="label">Role:</span>
-                    <span class="badge-admin">Admin</span>
+                    <span class="badge-admin">{{ currentUser?.role }}</span>
                 </div>
             </div>
 
