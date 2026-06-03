@@ -18,9 +18,8 @@ export const routes: Routes = [
         children: [
             { path: 'dashboard', component: Dashboard },
             { path: 'users', component: UsersPage },
-            { path: 'reservations', component: Reservations, children: [
-                { path: 'new', component: CreateReservation }
-            ]},
+            { path: 'reservations', component: Reservations},
+            { path: 'reservations/new', component: CreateReservation },
             { path: 'profile', component: AdminProfile }
         ]
     },

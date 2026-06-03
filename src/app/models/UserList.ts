@@ -1,11 +1,15 @@
+import { Injectable } from "@angular/core";
 import { User } from "./User";
 
+@Injectable({
+  providedIn: 'root',
+})
 export class UserList {
-    allUser:User[]=[]
+    public allUser: User[] = [];
 
-    constructor(allUser:User[])
-    {
-        this.allUser=allUser
+
+    UpdateUsers(users:User[]) {
+        this.allUser = users;
     }
 
     AddUser(user:User)
@@ -26,5 +30,9 @@ export class UserList {
         if(index != -1){
             this.allUser.splice(index,1)
         }
+    }
+
+    viewAllUsers() {
+        return this.allUser;
     }
 }

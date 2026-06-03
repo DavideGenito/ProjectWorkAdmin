@@ -10,9 +10,7 @@ import { AuthService } from './auth-service';
 export class UserService {
   host = `https://pascal2026-434310448117.europe-west12.run.app`;
 
-  public userList = new UserList([]);
-
-  constructor(private http: HttpClient, private auth: AuthService) {
+  constructor(private http: HttpClient, private auth: AuthService, private userList: UserList) {
   }
 
   Login(email: string | null, password: string | null) {
@@ -25,9 +23,7 @@ export class UserService {
 
   VisualizzaUtenti() {
     let URL = this.host + `/users`;
-    this.http.get<User[]>(URL).subscribe((utenti: User[]) => {
-      this.userList.allUser = utenti;
-    });
+    return this.http.get<User[]>(URL);    
   }
 
   CreaUtente(firstName: string, lastName: string, email: string, credit: number, role: boolean, password: string) {
@@ -54,7 +50,7 @@ export class UserService {
       lastName: user.lastName,
       email: user.email,
       credit: user.credit,
-      role: user.Admin,
+      role: user.role,
       password: user.password
     };
     this.http.put<User>(URL, body).subscribe((updated: User) => {
