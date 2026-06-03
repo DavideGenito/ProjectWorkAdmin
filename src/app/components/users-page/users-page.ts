@@ -1,6 +1,5 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user-service';
-import { UserList } from '../../models/UserList';
 import { User } from '../../models/User';
 import { Router } from '@angular/router';
 import { ResetPass } from '../reset-pass/reset-pass';
@@ -12,20 +11,28 @@ import { ResetPass } from '../reset-pass/reset-pass';
   templateUrl: './users-page.html',
   styleUrl: './users-page.css',
 })
-export class UsersPage {
+export class UsersPage implements OnInit {
   mostraResetPass = false;
   idUtenteSelezionato!: number;
 
+  sortKey: keyof User = 'id';
+  sortDirection: 'asc' | 'desc' = 'asc';
+  allUsers: User[] = [];
+
   constructor(
     public userService: UserService, 
-    private cd: ChangeDetectorRef, 
-    public userList: UserList, 
-    private router: Router
+    private router: Router,
+    private cd: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
+    this.loadUsers();
+  }
+
+  loadUsers() {
     this.userService.VisualizzaUtenti().subscribe((utenti) => {
-      this.userList.UpdateUsers(utenti);
+      this.allUsers = utenti;
+      this.applySort();
       this.cd.detectChanges();
     });
   }
@@ -40,8 +47,7 @@ export class UsersPage {
 
   deleteUser(id: number) {
     this.userService.CancellaUtente(id).subscribe(() => {
-      this.userList.deleteUser(id);
-      this.cd.detectChanges();
+      this.loadUsers();
     });
   }
 
@@ -51,12 +57,37 @@ export class UsersPage {
   }
 
   eseguiResetPassword(nuovaPassword: string) {
-    this.userService.ResetPassword(this.idUtenteSelezionato.toString(), nuovaPassword).subscribe();    
-    this.mostraResetPass = false; 
-    this.cd.detectChanges();
+    this.userService.ResetPassword(this.idUtenteSelezionato.toString(), nuovaPassword).subscribe(() => {
+      this.mostraResetPass = false; 
+    });    
   }
 
-  updatePage() {
-    this.cd.detectChanges();
+  sortBy(key: keyof User) {
+    if (this.sortKey === key) {
+      this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.sortKey = key;
+      this.sortDirection = 'asc';
+    }
+
+    this.applySort();
+  }
+
+  private applySort() {
+    const key = this.sortKey;
+    const isAsc = this.sortDirection === 'asc';
+
+    this.allUsers.sort((a, b) => {
+      const valA = a[key];
+      const valB = b[key];
+
+      if (typeof valA === 'string' && typeof valB === 'string') {
+        return isAsc ? valA.localeCompare(valB) : valB.localeCompare(valA);
+      }
+
+      if (valA < valB) return isAsc ? -1 : 1;
+      if (valA > valB) return isAsc ? 1 : -1;
+      return 0;
+    });
   }
 }

@@ -4,7 +4,7 @@
             <div class="card bg-body-tertiary m-2">
                 <div class="card-body">
                     <h5 class="card-title">Total Registered Users</h5>
-                    <p class="card-text display-4">1,234</p>
+                    <p class="card-text display-4">{{numberUsers}}</p>
                 </div>
             </div>
         </div>
@@ -31,10 +31,10 @@
             <div class="card bg-body-tertiary m-2">
                 <div class="card-body">
                     <h5 class="card-title">Recent Users</h5>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">Mario Rossi</li>
-                        <li class="list-group-item">Luigi Bianchi</li>
-                        <li class="list-group-item">Giulia Verdi</li>
+                    <ul class="list-group">
+                        @for (u of recentUsers; track u.id) {
+                            <li class="list-group-item">{{ u.id }} | {{ u.firstName }} {{ u.lastName }}</li>
+                        }
                     </ul>
                 </div>
             </div>
@@ -44,7 +44,7 @@
             <div class="card bg-body-tertiary m-2">
                 <div class="card-body">
                     <h5 class="card-title">Recent Reservations</h5>
-                    <ul class="list-group list-group-flush">
+                    <ul class="list-group">
                         <li class="list-group-item">2026-05-30 09:00 - Sala Riunioni Grande</li>
                         <li class="list-group-item">2026-05-30 10:00 - Sala Riunioni Grande</li>
                         <li class="list-group-item">2026-05-30 11:00 - Sala Riunioni Grande</li>
@@ -83,7 +83,7 @@
             <div class="card bg-body-tertiary m-2">
                 <div class="card-body">
                     <h5 class="card-title">State of the Space</h5>
-                    <ul class="list-group list-group-flush">
+                    <ul class="list-group">
                         <li class="list-group-item">Sala Riunioni Grande: Occupata</li>
                         <li class="list-group-item">Sala Riunioni Piccola: Libera</li>
                         <li class="list-group-item">Sala Riunioni Media: Libera</li>

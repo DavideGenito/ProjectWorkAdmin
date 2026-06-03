@@ -1,0 +1,4 @@
+.clickable-area:hover {
+    background: #ddd;
+    cursor: pointer;
+}
