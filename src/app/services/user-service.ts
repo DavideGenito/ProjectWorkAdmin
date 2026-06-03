@@ -26,7 +26,7 @@ export class UserService {
     return this.http.get<User[]>(URL);    
   }
 
-  CreaUtente(firstName: string, lastName: string, email: string, credit: number, role: boolean, password: string) {
+  CreaUtente(firstName: string, lastName: string, email: string, credit: number, role: string, password: string) {
     let URL = this.host + `/users`;
     let body = {
       firstname: firstName,
@@ -37,9 +37,7 @@ export class UserService {
       password: password
     };
 
-    this.http.post<User>(URL, body).subscribe((newUser: User) => {
-      this.userList.AddUser(newUser);
-    });
+    return this.http.post<User>(URL, body);
   }
 
   ModificaUtente(user: User) {
@@ -53,24 +51,23 @@ export class UserService {
       role: user.role,
       password: user.password
     };
-    this.http.put<User>(URL, body).subscribe((updated: User) => {
-      this.userList.UpdateUser(updated);
-    });
+    return this.http.put<User>(URL, body);
   }
 
   CancellaUtente(id: number) {
     let URL = `${this.host}/users/${id}`;
-    this.http.delete(URL).subscribe(() => {
-      this.userList.deleteUser(id);
-    });
+    return this.http.delete(URL);
   }
 
-  ResetPassword(nuovaPassword: string) {
+  ResetPassword(id: string, nuovaPassword: string) {
     let URL = this.host + '/users/resetPassword';
-    let body = { password: nuovaPassword };
+    let body = { id: id, password: nuovaPassword };
 
-    this.http.post<User>(URL, body).subscribe((updated: User) => {
-      this.userList.UpdateUser(updated);
-    });
+    return this.http.post<User>(URL, body);
+  }
+
+  DettagliUtente(id: number) {
+    let URL = this.host + `/users/${id}`;
+    return this.http.get<User>(URL);
   }
 }

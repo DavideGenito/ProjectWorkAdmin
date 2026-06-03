@@ -2,41 +2,61 @@ import { ChangeDetectorRef, Component } from '@angular/core';
 import { UserService } from '../../services/user-service';
 import { UserList } from '../../models/UserList';
 import { User } from '../../models/User';
+import { Router } from '@angular/router';
+import { ResetPass } from '../reset-pass/reset-pass';
 
 @Component({
   selector: 'app-users-page',
-  imports: [],
+  standalone: true,
+  imports: [ResetPass],
   templateUrl: './users-page.html',
   styleUrl: './users-page.css',
 })
 export class UsersPage {
-  allUser: User[] = [];
+  mostraResetPass = false;
+  idUtenteSelezionato!: number;
 
-  constructor(public userService: UserService, private cd: ChangeDetectorRef, private userList: UserList) {
-  }
+  constructor(
+    public userService: UserService, 
+    private cd: ChangeDetectorRef, 
+    public userList: UserList, 
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.userService.VisualizzaUtenti().subscribe((utenti) => {
       this.userList.UpdateUsers(utenti);
-      this.allUser = utenti;
       this.cd.detectChanges();
     });
   }
 
   createUser() {
-    // redirect a page
+    this.router.navigate(['/users/new']);
   }
 
   editUser(user: User) {
-    // redirect a page
+    this.router.navigate(['/users', user.id, 'edit']);
   }
 
   deleteUser(id: number) {
-    this.userService.CancellaUtente(id);
+    this.userService.CancellaUtente(id).subscribe(() => {
+      this.userList.deleteUser(id);
+      this.cd.detectChanges();
+    });
+  }
+
+  resetPassword(user: User) {
+    this.idUtenteSelezionato = user.id;
+    this.mostraResetPass = true;
+  }
+
+  eseguiResetPassword(nuovaPassword: string) {
+    this.userService.ResetPassword(this.idUtenteSelezionato.toString(), nuovaPassword).subscribe();    
+    this.mostraResetPass = false; 
     this.cd.detectChanges();
   }
 
-  resetPassword(user: User){
-    // redirect a page
+  updatePage() {
+    this.cd.detectChanges();
   }
 }

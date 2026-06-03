@@ -31,7 +31,7 @@
                 </tr>
             </thead>
             <tbody>
-                @for (u of allUser; track $index) {
+                @for (u of userList.allUser; track $index) {
                     <tr>
                         <td>{{ u.id }}</td>
                         <td>{{ u.firstName }}</td>
@@ -56,3 +56,11 @@
         </table>
     </div>
 </div>
+
+@if (mostraResetPass) {
+  <app-reset-pass 
+    [userId]="idUtenteSelezionato" 
+    (confermato)="eseguiResetPassword($event)" 
+    (annullato)="mostraResetPass = false">
+  </app-reset-pass>
+}

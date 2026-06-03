@@ -32,6 +32,10 @@ export class UserList {
         }
     }
 
+    searchUser(id:number): User | undefined {
+        return this.allUser.find(u => u.id === id);
+    }
+
     viewAllUsers() {
         return this.allUser;
     }

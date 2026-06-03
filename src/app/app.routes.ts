@@ -6,6 +6,7 @@ import { AdminProfile } from './components/admin-profile/admin-profile';
 import { AuthGuard } from './security/auth-guard';
 import { Login } from './components/login/login';
 import { CreateReservation } from './components/create-reservation/create-reservation';
+import { CreateUser } from './components/create-user/create-user';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -18,6 +19,8 @@ export const routes: Routes = [
         children: [
             { path: 'dashboard', component: Dashboard },
             { path: 'users', component: UsersPage },
+            { path: 'users/new', component: CreateUser },
+            { path: 'users/:id/edit', component: CreateUser },
             { path: 'reservations', component: Reservations},
             { path: 'reservations/new', component: CreateReservation },
             { path: 'profile', component: AdminProfile }
