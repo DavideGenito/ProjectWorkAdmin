@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AdminService } from '../../services/admin-service';
+import { ReservationModel } from '../../models/Reservation-Model';
 
 type SortColumn = 'userName' | 'userSurname' | 'spaceName' | 'date' | 'time' | 'price';
 
@@ -13,7 +14,7 @@ type SortColumn = 'userName' | 'userSurname' | 'spaceName' | 'date' | 'time' | '
   styleUrls: ['./reservations.css'],
 })
 export class Reservations implements OnInit {
-  bookings: any[] = [];
+  bookings: ReservationModel[] = [];
   fromDate = this.formatDateInput(new Date(Date.now()));
   toDate = this.formatDateInput(new Date());
   sortColumn: SortColumn = 'date';

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { ReservationModel } from '../models/Reservation-Model';
 
 @Injectable({
   providedIn: 'root',
@@ -10,12 +11,12 @@ export class AdminService {
 
   constructor(private http: HttpClient) {}
 
-  getBookings(from: Date, to: Date): Observable<any[]> {
-    return this.http.get<any[]>(`${this.host}/admin/bookings?from=${from.toISOString()}&to=${to.toISOString()}`);
+  getBookings(from: Date, to: Date): Observable<ReservationModel[]> {
+    return this.http.get<ReservationModel []>(`${this.host}/admin/bookings?from=${from.toISOString()}&to=${to.toISOString()}`);
   }
 
-  getBooking(slotId: number): Observable<any> {
-    return this.http.get<any>(`${this.host}/admin/bookings/${slotId}`);
+  getBooking(bookingId:number): Observable<ReservationModel> {
+    return this.http.get<ReservationModel>(`${this.host}/admin/bookings/${bookingId}`);
   }
 
   newBooking(uid: number, sId: number) {
@@ -27,7 +28,8 @@ export class AdminService {
     return this.http.post(`${this.host}/admin/bookings`, body);
   }
 
-  removeBooking(slotId: number) {
-    return this.http.delete(`${this.host}/admin/bookings/${slotId}`);
+  removeBooking(bookingId: number) {
+    return this.http.delete(`${this.host}/admin/bookings/${bookingId}`);
   }
+
 }

@@ -1,1 +1,41 @@
-<p>view-reservation works!</p>
+  <div class="mb-3 row">
+    <label class="col-sm-2 col-form-label">Cliente</label>
+    <div class="col-sm-10">
+      <input type="text" readonly class="form-control-plaintext" [value]="reservation?.user?.firstName + ' ' + reservation?.user?.lastName || 'N/D'">
+    </div>
+  </div>
+
+  <div class="mb-3 row">
+    <label class="col-sm-2 col-form-label">Email</label>
+    <div class="col-sm-10">
+      <input type="text" readonly class="form-control-plaintext form-control-sm" [value]="reservation?.user?.email || 'N/D'">
+    </div>
+  </div>
+
+  <div class="mb-3 row">
+    <label class="col-sm-2 col-form-label">Spazio</label>
+    <div class="col-sm-10">
+      <input type="text" readonly class="form-control-plaintext" [value]="reservation?.slot?.space?.name || 'N/D'">
+    </div>
+  </div>
+
+  <div class="mb-3 row">
+    <label class="col-sm-2 col-form-label">Data</label>
+    <div class="col-sm-10">
+      <input type="text" readonly class="form-control-plaintext" [value]=" reservation?.start">
+    </div>
+  </div>
+
+  <div class="mb-3 row">
+    <label class="col-sm-2 col-form-label">Orario</label>
+    <div class="col-sm-10">
+      <input type="text" readonly class="form-control-plaintext" [value]="reservation?.getTimeFromDate(reservation?.start) || 'N/D'">
+    </div>
+  </div>
+
+  <div class="mb-3 row">
+    <label class="col-sm-2 col-form-label">Importo</label>
+    <div class="col-sm-10">
+      <input type="text" readonly class="form-control-plaintext" [value]="reservation?.space?.slotPrice || 'N/D'">
+    </div>
+  </div>
