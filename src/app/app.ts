@@ -2,6 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { RouterOutlet, Router } from '@angular/router';
 import { SideBar } from "./components/side-bar/side-bar";
 import { Footer } from './components/footer/footer';
+import { AuthService } from './services/auth-service';
 
 @Component({
   selector: 'app-root',
@@ -11,11 +12,7 @@ import { Footer } from './components/footer/footer';
 })
 export class App {
   protected readonly title = signal('ProjectWorkAdmin');
-  private readonly router = inject(Router);
+  private readonly authService = inject(AuthService);
 
-  // Questo getter controlla se NON siamo nella pagina di login.
-  // Viene ricalcolato automaticamente da Angular.
-  get isLogged(): boolean {
-    return this.router.url !== '/login';
-  }
+  readonly isLogged = this.authService.isLogged;
 }

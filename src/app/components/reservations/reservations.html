@@ -24,12 +24,17 @@
 <div class="container">
     <h2 class="mb-4">Reservations</h2>
     <div class="mb-3 row">
-        <div class="col-sm-10">
+        <div class="col-sm-8">
             <input type="text" class="form-control" placeholder="Search reservations by user name...">
         </div>
         <div class="col-sm-2">
             <button class="btn btn-primary w-100">
                 <i class="bi bi-search"></i> Search
+            </button>
+        </div>
+        <div class="col-sm-2">
+            <button class="btn btn-success w-100" (click)="goCreate()">
+                <i class="bi bi-plus"></i> Add Reservation
             </button>
         </div>
     </div>
@@ -46,6 +51,26 @@
                 </tr>
             </thead>
             <tbody>
+                @for (b of bookings; track $index) {
+                    <tr>
+                        <td>{{b.id}}</td>
+                        <td>{{b.start}}</td>
+                        <td>{{b.end}}</td>
+                        <td>{{b.space.name}}</td>
+                        <td>{{b.user.firstName}} {{b.user.lastName}}</td>
+                        <td>
+                            <button class="btn btn-sm btn-secondary me-2">
+                                <i class="bi bi-info-circle"></i> View
+                            </button>
+                            <button class="btn btn-sm btn-primary me-2">
+                                <i class="bi bi-pencil"></i> Edit
+                            </button>
+                            <button class="btn btn-sm btn-danger">
+                                <i class="bi bi-trash"></i> Delete
+                            </button>
+                        </td>
+                    </tr>
+                }
                 <tr>
                     <td>25</td>
                     <td>2026-05-30 09:00</td>

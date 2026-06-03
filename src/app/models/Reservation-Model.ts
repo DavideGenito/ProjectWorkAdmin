@@ -2,7 +2,7 @@ import { Space } from './Space';
 import { User } from './User';
 
 export class ReservationModel {
-  user: User = new User('', '', '', 0, false, '');
+  user: User = new User('', '', '', 0, '', '');
   start: Date | undefined = new Date();
   end: Date | undefined = new Date();
   slotId: number = 0;

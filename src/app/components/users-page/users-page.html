@@ -2,12 +2,17 @@
     <h2 class="mb-4">Users Management</h2>
 
     <div class="mb-3 row">
-        <div class="col-sm-10">
+        <div class="col-sm-8">
             <input type="text" class="form-control" placeholder="Search users by name...">
         </div>
         <div class="col-sm-2">
             <button class="btn btn-primary w-100">
                 <i class="bi bi-search"></i> Search
+            </button>
+        </div>
+        <div class="col-sm-2">
+            <button class="btn btn-success w-100" (click)="createUser()">
+                <i class="bi bi-plus"></i> Create User
             </button>
         </div>
     </div>
@@ -26,55 +31,19 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>132</td>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>bsifonbsin@gmail.com</td>
-                    <td>Disoccupato</td>
-                    <td>30000</td>
-                    <td>
-                        <button class="btn btn-sm btn-primary me-2">
-                            <i class="bi bi-pencil"></i> Edit
-                        </button>
-                        <button class="btn btn-sm btn-secondary me-2">
-                            <i class="bi bi-asterisk"></i> Change Pass
-                        </button>
-                        <button class="btn btn-sm btn-danger">
-                            <i class="bi bi-trash"></i> Delete
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>254</td>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>feafeabfaubfe@gmail.com</td>
-                    <td>Disoccupato</td>
-                    <td>30000</td>
-                    <td>
-                        <button class="btn btn-sm btn-primary me-2">
-                            <i class="bi bi-pencil"></i> Edit
-                        </button>
-                        <button class="btn btn-sm btn-danger">
-                            <i class="bi bi-trash"></i> Delete
-                        </button>
-                    </td>
-                </tr>
-                <!--
-                @for (u of users; track $index) {
+                @for (u of allUser; track $index) {
                     <tr>
                         <td>{{ u.id }}</td>
-                        <td>{{ u.name }}</td>
-                        <td>{{ u.surname }}</td>
+                        <td>{{ u.firstName }}</td>
+                        <td>{{ u.lastName }}</td>
                         <td>{{ u.email }}</td>
                         <td>{{ u.role }}</td>
                         <td>{{ u.credit }}</td>
                         <td>
-                            <button class="btn btn-sm btn-primary me-2" (click)="editUser(u.id)">
+                            <button class="btn btn-sm btn-primary me-2" (click)="editUser(u)">
                                 <i class="bi bi-pencil"></i> Edit
                             </button>
-                            <button class="btn btn-sm btn-secondary" (click)="changePassword(u.id)">
+                            <button class="btn btn-sm btn-secondary me-2" (click)="resetPassword(u)">
                                 <i class="bi bi-asterisk"></i> Change Pass
                             </button>
                             <button class="btn btn-sm btn-danger" (click)="deleteUser(u.id)">
@@ -83,7 +52,6 @@
                         </td>
                     </tr>
                 }
-                -->
             </tbody>
         </table>
     </div>

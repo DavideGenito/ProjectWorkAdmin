@@ -4,16 +4,16 @@ export class User{
     lastName:string=""
     email:string=""
     credit:number=0
-    Admin:boolean=false
+    role:string=""
     password:string=""
 
-    constructor(firstName:string, lastName:string, email:string, credit:number, Admin:boolean, password:string)
+    constructor(firstName:string, lastName:string, email:string, credit:number, role:string, password:string)
     {
         this.firstName=firstName
         this.lastName=lastName
         this.email=email
         this.credit=credit
-        this.Admin=Admin
+        this.role=role
         this.password=password
     }
 }
