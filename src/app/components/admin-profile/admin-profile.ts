@@ -22,7 +22,6 @@ export class AdminProfile implements OnInit {
       (user: any) => {
         this.currentUser = user;
         this.cd.detectChanges();
-        console.log(this.currentUser);
       },
       (err: any) => {
         console.error('Errore nel recupero dell\'utente corrente', err);

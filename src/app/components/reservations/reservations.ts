@@ -33,7 +33,6 @@ export class Reservations implements OnInit {
       b => {
         this.bookings = b;
         this.cd.detectChanges();
-        console.log(this.bookings);
       }
     );
   }
