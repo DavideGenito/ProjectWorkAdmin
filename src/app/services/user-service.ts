@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { UserList } from '../models/UserList';
 import { User } from '../models/User';
 import { AuthService } from './auth-service';
 
@@ -10,7 +9,7 @@ import { AuthService } from './auth-service';
 export class UserService {
   host = `https://pascal2026-434310448117.europe-west12.run.app`;
 
-  constructor(private http: HttpClient, private auth: AuthService, private userList: UserList) {
+  constructor(private http: HttpClient, private auth: AuthService) {
   }
 
   Login(email: string | null, password: string | null) {
