@@ -13,6 +13,7 @@ import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
   styleUrl: './users-page.css',
 })
 export class UsersPage implements OnInit {
+  search = new FormControl('');
 
   currentUserId = signal<number>(0);
 
