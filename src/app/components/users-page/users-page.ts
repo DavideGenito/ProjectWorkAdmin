@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, signal } from '@angular/core';
 import { UserService } from '../../services/user-service';
 import { User } from '../../models/User';
 import { Router } from '@angular/router';
@@ -12,6 +12,9 @@ import { ResetPass } from '../reset-pass/reset-pass';
   styleUrl: './users-page.css',
 })
 export class UsersPage implements OnInit {
+
+  currentUserId = signal<number>(0);
+
   mostraResetPass = false;
   idUtenteSelezionato!: number;
 
@@ -19,14 +22,21 @@ export class UsersPage implements OnInit {
   sortDirection: 'asc' | 'desc' = 'asc';
   allUsers: User[] = [];
 
-  constructor(
-    public userService: UserService, 
-    private router: Router,
-    private cd: ChangeDetectorRef
-  ) {}
+  constructor(public userService: UserService, private router: Router,private cd: ChangeDetectorRef) 
+  {
+
+  }
 
   ngOnInit() {
+    this.FindCurrentUser();
     this.loadUsers();
+  }
+
+  async FindCurrentUser()
+  {
+    await this.userService.DettagliUtenteAutenticato().subscribe((user) => {
+      this.currentUserId.set(user.id);
+    }); 
   }
 
   loadUsers() {
