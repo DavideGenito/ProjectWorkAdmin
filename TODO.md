@@ -10,13 +10,13 @@
 
 ## @TODO
 
-- [ ] Disabilitare delete per il proprio utente
-- [ ] Disabilitare bottoni su altri amministratori
-- [ ] Controllare per i decimali
+- [x] Disabilitare delete per il proprio utente
+- [x] Disabilitare bottoni su altri amministratori
+- [x] Controllare per i decimali
 - [ ] Footer migliorare
-- [ ] Migliorare new reservation
-- [ ] Controllare problemi broweser create reservation
-- [ ] Tabella scorre in se stessa
+- [x] Migliorare new reservation
+- [x] Controllare problemi broweser create reservation
+- [x] Tabella scorre in se stessa
 - [ ] Login se non metto email e altri campi non solo login mettere "manca email" o cose del genere 
 - [ ] Fascie orarie da sistemare reservation
 - [ ] Edit reservation
@@ -24,7 +24,7 @@
 - [ ] Trim input
 - [ ] Search reservation da implementare
 - [ ] Change password mi fa cliccare 2 volte
-- [ ] Reset email che diventerà edit nel profilo
-- [ ] Reset password profilo sistemare
-- [ ] Nome nella sidebar
+- [x] Reset email che diventerà edit nel profilo
+- [x] Reset password profilo sistemare
+- [x] Nome nella sidebar
 - [ ] Implementa dashboard
