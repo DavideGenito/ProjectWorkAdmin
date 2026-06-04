@@ -2,12 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User } from '../models/User';
 import { AuthService } from './auth-service';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  host = `https://pascal2026-434310448117.europe-west12.run.app`;
+  
 
   constructor(private http: HttpClient, private auth: AuthService) {
   }
@@ -21,12 +22,12 @@ export class UserService {
   }
 
   VisualizzaUtenti() {
-    let URL = this.host + `/users`;
+    let URL = environment.baseBackendUrl + `/users`;
     return this.http.get<User[]>(URL);    
   }
 
   CreaUtente(firstName: string, lastName: string, email: string, credit: number, role: string, password: string) {
-    let URL = this.host + `/users`;
+    let URL = environment.baseBackendUrl + `/users`;
     let body = {
       firstname: firstName,
       lastname: lastName,
@@ -40,7 +41,7 @@ export class UserService {
   }
 
   ModificaUtente(user: User) {
-    let URL = this.host + '/users';
+    let URL = environment.baseBackendUrl + '/users';
     const body = {
       id: user.id,
       firstName: user.firstName,
@@ -54,19 +55,19 @@ export class UserService {
   }
 
   CancellaUtente(id: number) {
-    let URL = `${this.host}/users/${id}`;
+    let URL = `${environment.baseBackendUrl}/users/${id}`;
     return this.http.delete(URL);
   }
 
   ResetPassword(id: string, nuovaPassword: string) {
-    let URL = this.host + '/users/resetPassword';
+    let URL = environment.baseBackendUrl + '/users/resetPassword';
     let body = { id: id, password: nuovaPassword };
 
     return this.http.post<User>(URL, body);
   }
 
   DettagliUtente(id: number) {
-    let URL = this.host + `/users/${id}`;
+    let URL = environment.baseBackendUrl + `/users/${id}`;
     return this.http.get<User>(URL);
   }
 }
