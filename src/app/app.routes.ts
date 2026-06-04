@@ -6,6 +6,7 @@ import { AdminProfile } from './components/admin-profile/admin-profile';
 import { AuthGuard } from './security/auth-guard';
 import { Login } from './components/login/login';
 import { CreateReservation } from './components/create-reservation/create-reservation';
+import { ViewReservation } from './components/view-reservation/view-reservation';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -20,6 +21,7 @@ export const routes: Routes = [
             { path: 'users', component: UsersPage },
             { path: 'reservations', component: Reservations},
             { path: 'reservations/new', component: CreateReservation },
+            { path: 'reservations/view/:id', component: ViewReservation },
             { path: 'profile', component: AdminProfile }
         ]
     },

@@ -59,13 +59,13 @@
                         <td>{{b.space.name}}</td>
                         <td>{{b.user.firstName}} {{b.user.lastName}}</td>
                         <td>
-                            <button class="btn btn-sm btn-secondary me-2">
+                            <button class="btn btn-sm btn-secondary me-2" (click)="viewDetails(b)">
                                 <i class="bi bi-info-circle"></i> View
                             </button>
                             <button class="btn btn-sm btn-primary me-2">
                                 <i class="bi bi-pencil"></i> Edit
                             </button>
-                            <button class="btn btn-sm btn-danger">
+                            <button class="btn btn-sm btn-danger" (click)="cancelReservation(b)">
                                 <i class="bi bi-trash"></i> Delete
                             </button>
                         </td>

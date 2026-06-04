@@ -27,7 +27,7 @@ export class AdminService {
 
     return this.http.post<ReservationModel>(`${this.host}/admin/bookings`, body);
   }
-
+  
   removeBooking(bookingId: number) {
     return this.http.delete(`${this.host}/admin/bookings/${bookingId}`);
   }
@@ -39,8 +39,14 @@ export class AdminService {
     return this.http.get(`${this.host}/profile`);
   }
 
-  getSpace(id: number) {
-    return this.http.get(`${this.host}/admin/spaces/${id}`);
+  getSpaces() {
+    return this.http.get(`${this.host}/spaces`);
   }
 
+  getAvailability(date: string) {
+    return this.http.get(`${this.host}/spaces/availability?date=${date}`);
+  }
+  getSlotsAvailable(spaceId: number, date: string) {
+    return this.http.get(`${this.host}/spaces/availability/${spaceId}?date=${date}`);
+  }
 }

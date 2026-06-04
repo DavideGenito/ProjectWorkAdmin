@@ -17,8 +17,8 @@ type SortColumn = 'userName' | 'userSurname' | 'spaceName' | 'date' | 'time' | '
 })
 export class Reservations implements OnInit {
   bookings: ReservationModel[] = [];
-  fromDate = `${new Date().getFullYear()}-${String(new Date().getMonth()).padStart(2, '0')}-${String(new Date().getDate()).padStart(2, '0')}`;
-  toDate = `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}-${String(new Date().getDate()).padStart(2, '0')}`;
+  fromDate = `${new Date().getFullYear()-100}-${String(new Date().getMonth()).padStart(2, '0')}-${String(new Date().getDate()).padStart(2, '0')}`;
+  toDate = `${new Date().getFullYear()+100}-${String(new Date().getMonth() + 1).padStart(2, '0')}-${String(new Date().getDate()).padStart(2, '0')}`;
   sortColumn: SortColumn = 'date';
   sortAsc = true;
 
@@ -126,7 +126,7 @@ export class Reservations implements OnInit {
   }
 
   cancelReservation(booking: any) {
-    const slotId = booking?.slotId || booking?.id || booking?.bookingId;
+    const slotId = booking?.id
     if (!slotId) {
       return;
     }
@@ -141,5 +141,9 @@ export class Reservations implements OnInit {
 
   goCreate() {
     this.router.navigate(['/reservations/new']);
+  }
+
+  viewDetails(booking: any) { 
+    this.router.navigate(['/reservations/view/', booking.id]);
   }
 }
