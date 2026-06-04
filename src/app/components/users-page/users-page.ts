@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, signal } from '@angular/core';
 import { UserService } from '../../services/user-service';
 import { User } from '../../models/User';
 import { Router } from '@angular/router';
@@ -13,7 +13,8 @@ import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
   styleUrl: './users-page.css',
 })
 export class UsersPage implements OnInit {
-  search = new FormControl('', Validators.required);
+
+  currentUserId = signal<number>(0);
 
   mostraResetPass = false;
   idUtenteSelezionato!: number;
@@ -24,14 +25,21 @@ export class UsersPage implements OnInit {
 
   isLoadeing = false;
 
-  constructor(
-    public userService: UserService,
-    private router: Router,
-    private cd: ChangeDetectorRef
-  ) { }
+  constructor(public userService: UserService, private router: Router,private cd: ChangeDetectorRef) 
+  {
+
+  }
 
   ngOnInit() {
+    this.FindCurrentUser();
     this.loadUsers();
+  }
+
+  async FindCurrentUser()
+  {
+    await this.userService.DettagliUtenteAutenticato().subscribe((user) => {
+      this.currentUserId.set(user.id);
+    }); 
   }
 
   loadUsers() {
