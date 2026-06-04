@@ -15,7 +15,7 @@ export class CreateUser {
     firstName: new FormControl('', Validators.required),
     lastName: new FormControl('', Validators.required),
     email: new FormControl('', [Validators.required, Validators.email]),
-    credit: new FormControl('', [Validators.required, Validators.min(0)]),
+    credit: new FormControl('', [Validators.required, Validators.min(0), Validators.pattern('^[0-9]+(?:\\.[0-9]{1,2})?$')]),
     role: new FormControl('', Validators.required),
     password: new FormControl('', [Validators.required, Validators.minLength(8)])
   });
