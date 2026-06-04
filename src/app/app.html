@@ -3,6 +3,7 @@
     <div class="row flex-grow-1 g-0">
       <app-side-bar class="col-2 border-end bg-body-secondary d-block" [class.d-none]="!isLogged()"></app-side-bar>
       <main class="p-4" [class.col-12]="!isLogged()" [class.col-10]="isLogged()">
+        <app-loading-spinner></app-loading-spinner>
         <router-outlet></router-outlet>
       </main>
     </div>

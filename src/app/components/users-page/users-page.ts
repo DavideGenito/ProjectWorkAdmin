@@ -1,42 +1,120 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { UserService } from '../../services/user-service';
-import { UserList } from '../../models/UserList';
 import { User } from '../../models/User';
+import { Router } from '@angular/router';
+import { ResetPass } from '../reset-pass/reset-pass';
+import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-users-page',
-  imports: [],
+  standalone: true,
+  imports: [ResetPass, ReactiveFormsModule],
   templateUrl: './users-page.html',
   styleUrl: './users-page.css',
 })
-export class UsersPage {
-  allUser: User[] = [];
+export class UsersPage implements OnInit {
+  search = new FormControl('', Validators.required);
 
-  constructor(public userService: UserService, private cd: ChangeDetectorRef, private userList: UserList) {
-  }
+  mostraResetPass = false;
+  idUtenteSelezionato!: number;
+
+  sortKey: keyof User = 'id';
+  sortDirection: 'asc' | 'desc' = 'asc';
+  allUsers: User[] = [];
+
+  isLoadeing = false;
+
+  constructor(
+    public userService: UserService,
+    private router: Router,
+    private cd: ChangeDetectorRef
+  ) { }
 
   ngOnInit() {
+    this.loadUsers();
+  }
+
+  loadUsers() {
+    this.isLoadeing = true;
     this.userService.VisualizzaUtenti().subscribe((utenti) => {
-      this.userList.UpdateUsers(utenti);
-      this.allUser = utenti;
+      let risultati = utenti;
+
+      if (this.search.value && this.search.valid && this.search.value.trim() !== '') {
+        const termineRicerca = this.search.value.toLowerCase().trim();
+        risultati = risultati.filter((user) =>
+          user.firstName.toLowerCase().includes(termineRicerca)
+        );
+      }
+
+      this.allUsers = risultati;
+
+      this.applySort();
+
       this.cd.detectChanges();
+      this.isLoadeing = false;
     });
   }
 
   createUser() {
-    // redirect a page
+    this.router.navigate(['/users/new']);
   }
 
   editUser(user: User) {
-    // redirect a page
+    this.router.navigate(['/users', user.id, 'edit']);
   }
 
   deleteUser(id: number) {
-    this.userService.CancellaUtente(id);
-    this.cd.detectChanges();
+    this.userService.CancellaUtente(id).subscribe(() => {
+      this.loadUsers();
+    });
   }
 
-  resetPassword(user: User){
-    // redirect a page
+  resetPassword(user: User) {
+    this.idUtenteSelezionato = user.id;
+    this.mostraResetPass = true;
+  }
+
+  eseguiResetPassword(nuovaPassword: string) {
+    this.userService.ResetPassword(this.idUtenteSelezionato.toString(), nuovaPassword).subscribe(() => {
+      this.mostraResetPass = false;
+    });
+  }
+
+  sortBy(key: keyof User) {
+    if (this.sortKey === key) {
+      this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.sortKey = key;
+      this.sortDirection = 'asc';
+    }
+
+    this.applySort();
+  }
+
+  private applySort() {
+    const key = this.sortKey;
+    const isAsc = this.sortDirection === 'asc';
+
+    this.allUsers.sort((a, b) => {
+      const valA = a[key];
+      const valB = b[key];
+
+      if (typeof valA === 'string' && typeof valB === 'string') {
+        return isAsc ? valA.localeCompare(valB) : valB.localeCompare(valA);
+      }
+
+      if (valA < valB) return isAsc ? -1 : 1;
+      if (valA > valB) return isAsc ? 1 : -1;
+      return 0;
+    });
+  }
+
+  searchUsers() {
+    this.loadUsers();
+  }
+
+  clearSearch() {
+    this.search.setValue('');
+    this.loadUsers();
   }
 }
