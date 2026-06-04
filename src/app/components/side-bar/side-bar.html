@@ -2,18 +2,20 @@
     <h1 class="fs-4 mb-3">Admin Panel</h1>
     <ul class="nav nav-pills flex-column mb-auto">
         <li class="nav-item">
-            <!-- routerLinkActiveOptions specify that the dashboard is at the exact / link -->
-            <a class="nav-link fs-6" routerLink="/dashboard" routerLinkActive="active">
+            <a class="nav-link fs-6" routerLink="/dashboard" routerLinkActive="active" #rlaDash="routerLinkActive"
+                [class.text-reset]="!rlaDash.isActive">
                 <i class="bi bi-grid"></i> Dashboard
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link fs-6" routerLink="/users" routerLinkActive="active">
+            <a class="nav-link fs-6" routerLink="/users" routerLinkActive="active" #rlaUsers="routerLinkActive"
+                [class.text-reset]="!rlaUsers.isActive">
                 <i class="bi bi-people"></i> Users
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link fs-6" routerLink="/reservations" routerLinkActive="active">
+            <a class="nav-link fs-6" routerLink="/reservations" routerLinkActive="active" #rlaRes="routerLinkActive"
+                [class.text-reset]="!rlaRes.isActive">
                 <i class="bi bi-calendar3-event"></i> Reservations
             </a>
         </li>
@@ -24,9 +26,17 @@
             <i class="bi bi-person-circle"></i> Admin
         </button>
         <ul class="dropdown-menu">
-            <li><a class="dropdown-item" routerLink="/profile" routerLinkActive="active">Profile</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" routerLink="/logout" routerLinkActive="active" (click)="Logout()">Logout</a></li>
+            <li>
+                <a class="dropdown-item" routerLink="/profile" routerLinkActive="active" #rlaProfile="routerLinkActive"
+                    [class.text-reset]="!rlaProfile.isActive">Profile</a>
+            </li>
+            <li>
+                <hr class="dropdown-divider">
+            </li>
+            <li>
+                <a class="dropdown-item" routerLink="/logout" routerLinkActive="active" (click)="Logout()"
+                    #rlaLogout="routerLinkActive" [class.text-reset]="!rlaLogout.isActive">Logout</a>
+            </li>
         </ul>
     </div>
 </div>

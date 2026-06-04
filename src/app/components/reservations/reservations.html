@@ -54,8 +54,8 @@
                 @for (b of bookings; track $index) {
                     <tr>
                         <td>{{b.id}}</td>
-                        <td>{{b.start}}</td>
-                        <td>{{b.end}}</td>
+                        <td>{{b.start | date:'yyyy-MM-dd HH:mm'}}</td>
+                        <td>{{b.end | date:'yyyy-MM-dd HH:mm'}}</td>
                         <td>{{b.space.name}}</td>
                         <td>{{b.user.firstName}} {{b.user.lastName}}</td>
                         <td>
