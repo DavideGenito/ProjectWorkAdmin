@@ -9,7 +9,6 @@ import { environment } from '../../environments/environment';
 })
 export class UserService {
   
-
   constructor(private http: HttpClient, private auth: AuthService) {
   }
 
@@ -69,5 +68,11 @@ export class UserService {
   DettagliUtente(id: number) {
     let URL = environment.baseBackendUrl + `/users/${id}`;
     return this.http.get<User>(URL);
+  }
+
+  DettagliUtenteAutenticato()
+  {
+    let URL = environment.baseBackendUrl +'/profile'
+    return this.http.get<User>(URL)
   }
 }

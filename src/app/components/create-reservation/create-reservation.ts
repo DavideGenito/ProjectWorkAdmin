@@ -1,52 +1,94 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { AdminService } from '../../services/admin-service';
-import { User } from '../../models/User';
-import { UserService } from '../../services/user-service';
-import { ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AdminService } from '../../services/admin-service';
+import { UserService } from '../../services/user-service';
+import { User } from '../../models/User';
 import { Space } from '../../models/Space';
 import { Slots } from '../../models/Slots';
-import { FormControl } from '@angular/forms';
-import { ReactiveFormsModule } from '@angular/forms';
-
 
 @Component({
   selector: 'app-create-reservation',
   templateUrl: './create-reservation.html',
-  standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
   styleUrls: ['./create-reservation.css'],
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule],
 })
 export class CreateReservation implements OnInit {
-  select = new FormControl('');
-  prenotazione = {
-    utenteId: 0,
-    tipoPostazione: '',
-    postazione: '',
-    data: '',
-    slotOrario: '',
-  };
-  Slots: Slots[] = [];
-  Spaces: Space[] = []
-  SelectedSpace: Space | null = null;
+  
+  bookingForm = new FormGroup({
+    utenteId: new FormControl('', Validators.required),
+    data: new FormControl('', Validators.required),
+    spaceId: new FormControl('', Validators.required),
+    slotId: new FormControl('', Validators.required),
+  });
+
   listaUtenti: User[] = [];
-  slotOrariSala: string[] = ['08:00', '09:00', '10:00', '11:00', '12:00', '14:00', '15:00', '16:00', '17:00', '18:00'];
-  slotIndex: number = 0 ;
-  constructor(private service: AdminService,private userService: UserService, private cd: ChangeDetectorRef, private router: Router) {}
+  spaces: Space[] = [];
+  slots: Slots[] = [];
+
+  constructor(private adminService: AdminService, private userService: UserService, private router: Router) { }
 
   ngOnInit() {
     this.loadUsers();
-    this.loadSpaces();
+    this.setupFormValueChanges();
+  }
+
+  private setupFormValueChanges() {
+    this.bookingForm.get('data')?.valueChanges.subscribe(date => {
+      this.bookingForm.get('spaceId')?.reset('', { emitEvent: false });
+      this.bookingForm.get('slotId')?.reset('', { emitEvent: false });
+      this.slots = [];
+      
+      if (date) {
+        this.loadSpacesAvailable(date);
+      } else {
+        this.spaces = [];
+      }
+    });
+
+    this.bookingForm.get('spaceId')?.valueChanges.subscribe(spaceId => {
+      this.bookingForm.get('slotId')?.reset('', { emitEvent: false });
+      const currentDate = this.bookingForm.get('data')?.value;
+
+      if (spaceId && currentDate) {
+        this.loadSlotsAvailable(Number(spaceId), currentDate);
+      } else {
+        this.slots = [];
+      }
+    });
+  }
+
+  loadUsers() {
+    this.userService.VisualizzaUtenti().subscribe({
+      next: (users) => this.listaUtenti = users,
+      error: (err) => console.error('Errore caricamento utenti', err)
+    });
+  }
+
+  loadSpacesAvailable(date: string) {
+    this.adminService.getAvailability(date).subscribe({
+      next: (availableSpaces: any) => this.spaces = availableSpaces,
+      error: (err) => console.error('Errore caricamento spazi', err)
+    });
+  }
+
+  loadSlotsAvailable(spaceId: number, date: string) {
+    this.adminService.getSlotsAvailable(spaceId, date).subscribe({
+      next: (res: any) => {
+        this.slots = res.slots
+      },
+      error: (err) => console.error('Errore caricamento slot', err)
+    });
   }
 
   addBooking() {
-    let uid = Number(this.prenotazione.utenteId);
-    let slotId = Number(this.select.value);
-    
+    if (this.bookingForm.invalid) return;
 
-    this.service.newBooking(uid, slotId).subscribe({
+    const { utenteId, slotId } = this.bookingForm.value;
+
+    this.adminService.newBooking(Number(utenteId), Number(slotId)).subscribe({
       next: () => {
         this.router.navigate(['/reservations']);
       },
@@ -54,52 +96,5 @@ export class CreateReservation implements OnInit {
         console.error('Errore nella creazione della prenotazione', err);
       }
     });
-  }
-
-  onTipoPostazioneChange() {
-    if (this.prenotazione.tipoPostazione !== 'sala_riunioni') {
-      this.prenotazione.slotOrario = '';
-    }
-  }
-  loadUsers() {
-    this.userService.VisualizzaUtenti().subscribe(users => this.listaUtenti = users)
-    this.cd.detectChanges();
-  }
-   loadSpaces() {
-    this.service.getSpaces().subscribe((spaces: any) => {
-      this.Spaces = spaces;
-      this.cd.detectChanges();
-    });
-  }
-  getSpaceId(spaceName: string){
-    console.log(spaceName);
-    let space = this.Spaces.find(s => s.name === spaceName);
-    if (space)
-      return space.id 
-    return -1;
-  }
-
-  loadCurrentSpace(id: number) {
-    this.SelectedSpace = this.Spaces.find(s => s.id === id) || null;
-  }
-  
-  SpacesAvailable() {
-    this.service.getAvailability(this.prenotazione.data).subscribe((availableSpaces: any) => {
-      this.Spaces = availableSpaces;
-      this.cd.detectChanges();
-    })
-  }
-  SlotsAvailable(id: number) {
-    this.Slots = [];
-    this.cd.detectChanges();
-    this.service.getSlotsAvailable(id || -1, this.prenotazione.data).subscribe((availableSlots: any) => {
-      this.Slots = availableSlots.slots;
-      console.log(this.Slots);
-      this.cd.detectChanges();
-    })
-  }
-  saveIndex(slotId: number) {
-    console.log(slotId);
-    this.slotIndex = slotId;
   }
 }

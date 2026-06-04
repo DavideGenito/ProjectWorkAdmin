@@ -2,3 +2,7 @@
     background: #ddd;
     cursor: pointer;
 }
+
+.table-responsive {
+    max-height: 68vh;
+}

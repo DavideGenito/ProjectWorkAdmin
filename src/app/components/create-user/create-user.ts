@@ -25,7 +25,6 @@ export class CreateUser {
   constructor(private route: ActivatedRoute, private router: Router, private userService: UserService) {
     let id = Number.parseInt(this.route.snapshot.params['id']);
     this.userService.VisualizzaUtenti().subscribe((utenti) => {
-      console.log(utenti);
     });
 
 
@@ -34,7 +33,6 @@ export class CreateUser {
         this.userForm.controls['password'].clearValidators();
 
         this.user = user;
-        console.log(this.user);
 
         if (this.user) {
           this.userForm.patchValue({

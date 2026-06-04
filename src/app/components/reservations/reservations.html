@@ -1,30 +1,7 @@
-<!--
-{
-    "id": 9,
-    "start": "2026-05-30T09:00:00",
-    "end": "2026-05-30T10:00:00",
-    "space": {
-      "id": 1,
-      "name": "Sala Riunioni Grande",
-      "type": "Sala Riunioni",
-      "people": 12,
-      "slotPrice": 40
-    },
-    "user": {
-      "id": 1,
-      "firstName": "Mario",
-      "lastName": "Rossi",
-      "email": "rossi.mario@gmail.com",
-      "credit": 100,
-      "role": "Cliente"
-    }
-  }
--->
-
 <div class="container">
     <h2 class="mb-4">Reservations</h2>
     <div class="mb-3 row">
-        <div class="col-sm-8">
+        <div class="col-sm-7">
             <input type="text" class="form-control" placeholder="Search reservations by user name...">
         </div>
         <div class="col-sm-2">
@@ -32,7 +9,7 @@
                 <i class="bi bi-search"></i> Search
             </button>
         </div>
-        <div class="col-sm-2">
+        <div class="col-sm-3">
             <button class="btn btn-success w-100" (click)="goCreate()">
                 <i class="bi bi-plus"></i> Add Reservation
             </button>

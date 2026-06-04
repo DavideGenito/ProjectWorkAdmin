@@ -75,7 +75,7 @@
                         <button class="btn btn-sm btn-secondary me-2" (click)="resetPassword(u)">
                             <i class="bi bi-asterisk"></i> Change Pass
                         </button>
-                        <button class="btn btn-sm btn-danger" (click)="deleteUser(u.id)">
+                        <button class="btn btn-sm btn-danger" (click)="deleteUser(u.id)" [disabled]="u.id == currentUserId()">
                             <i class="bi bi-trash"></i> Delete
                         </button>
                     </td>
