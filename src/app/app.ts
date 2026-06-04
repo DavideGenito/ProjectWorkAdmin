@@ -3,10 +3,11 @@ import { RouterOutlet, Router } from '@angular/router';
 import { SideBar } from "./components/side-bar/side-bar";
 import { Footer } from './components/footer/footer';
 import { AuthService } from './services/auth-service';
+import { LoadingSpinner } from './components/loading-spinner/loading-spinner';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, SideBar, Footer],
+  imports: [RouterOutlet, SideBar, Footer, LoadingSpinner],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UserService } from '../../services/user-service';
 import { Router } from "@angular/router";
@@ -10,13 +10,14 @@ import { Router } from "@angular/router";
   styleUrl: './login.css',
 })
 export class Login {
-  
   loginForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required])
   });
 
-  constructor(private userService: UserService, private router: Router) {}
+  errorMessage = "";
+
+  constructor(private userService: UserService, private router: Router, private cd: ChangeDetectorRef) { }
 
   Login() {
     let email = this.loginForm.controls.email.value;
@@ -24,12 +25,15 @@ export class Login {
 
     this.userService.Login(email, password).subscribe({
       next: () => {
-        // Il login è andato a buon fine e il token è salvato: ora puoi navigare sicuro
         this.router.navigate(['/dashboard']);
       },
       error: (err) => {
-        // Gestisci qui eventuali errori di credenziali (es. mostrare un alert)
-        console.error("Errore durante il login:", err);
+        if (err.status == 401) {
+          this.errorMessage = "Credenziali errate";
+        } else {
+          this.errorMessage = "Errore durante il login: " + err.message;
+        }
+        this.cd.detectChanges();
       }
     });
   }
