@@ -1,17 +1,20 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { UserService } from '../../services/user-service';
 import { User } from '../../models/User';
 import { Router } from '@angular/router';
 import { ResetPass } from '../reset-pass/reset-pass';
+import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-users-page',
   standalone: true,
-  imports: [ResetPass],
+  imports: [ResetPass, ReactiveFormsModule],
   templateUrl: './users-page.html',
   styleUrl: './users-page.css',
 })
 export class UsersPage implements OnInit {
+  search = new FormControl('', Validators.required);
+
   mostraResetPass = false;
   idUtenteSelezionato!: number;
 
@@ -19,21 +22,36 @@ export class UsersPage implements OnInit {
   sortDirection: 'asc' | 'desc' = 'asc';
   allUsers: User[] = [];
 
+  isLoadeing = false;
+
   constructor(
-    public userService: UserService, 
+    public userService: UserService,
     private router: Router,
     private cd: ChangeDetectorRef
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.loadUsers();
   }
 
   loadUsers() {
+    this.isLoadeing = true;
     this.userService.VisualizzaUtenti().subscribe((utenti) => {
-      this.allUsers = utenti;
+      let risultati = utenti;
+
+      if (this.search.value && this.search.valid && this.search.value.trim() !== '') {
+        const termineRicerca = this.search.value.toLowerCase().trim();
+        risultati = risultati.filter((user) =>
+          user.firstName.toLowerCase().includes(termineRicerca)
+        );
+      }
+
+      this.allUsers = risultati;
+
       this.applySort();
+
       this.cd.detectChanges();
+      this.isLoadeing = false;
     });
   }
 
@@ -58,8 +76,8 @@ export class UsersPage implements OnInit {
 
   eseguiResetPassword(nuovaPassword: string) {
     this.userService.ResetPassword(this.idUtenteSelezionato.toString(), nuovaPassword).subscribe(() => {
-      this.mostraResetPass = false; 
-    });    
+      this.mostraResetPass = false;
+    });
   }
 
   sortBy(key: keyof User) {
@@ -89,5 +107,14 @@ export class UsersPage implements OnInit {
       if (valA > valB) return isAsc ? 1 : -1;
       return 0;
     });
+  }
+
+  searchUsers() {
+    this.loadUsers();
+  }
+
+  clearSearch() {
+    this.search.setValue('');
+    this.loadUsers();
   }
 }
