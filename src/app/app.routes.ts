@@ -8,6 +8,7 @@ import { Login } from './components/login/login';
 import { CreateReservation } from './components/create-reservation/create-reservation';
 import { CreateUser } from './components/create-user/create-user';
 import { ViewReservation } from './components/view-reservation/view-reservation';
+import { ResetPass } from './components/reset-pass/reset-pass';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -25,7 +26,7 @@ export const routes: Routes = [
             { path: 'reservations', component: Reservations},
             { path: 'reservations/new', component: CreateReservation },
             { path: 'reservations/view/:id', component: ViewReservation },
-            { path: 'profile', component: AdminProfile }
+            { path: 'profile', component: AdminProfile },
         ]
     },
 

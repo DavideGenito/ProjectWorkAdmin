@@ -23,9 +23,14 @@
             </div>
 
             <div class="profile-actions">
-                <button class="btn btn-secondary">Reset Email</button>
-                <button class="btn btn-primary">Reset Password</button>
+                <button (click)="EditProfile(currentUser.id)" class="btn btn-secondary">Edit Profile</button>
+                <button (click)="ResetPassword()" class="btn btn-primary">Reset Password</button>
             </div>
 
         </div>
+        @if (mostraResetPass) {
+<app-reset-pass [userId]="currentUser.id" (confermato)="eseguiResetPassword($event)"
+    (annullato)="mostraResetPass = false">
+</app-reset-pass>
+}
     </main>
