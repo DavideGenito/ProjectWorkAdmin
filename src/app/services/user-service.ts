@@ -75,4 +75,14 @@ export class UserService {
     let URL = environment.baseBackendUrl +'/profile'
     return this.http.get<User>(URL)
   }
+
+  VerificaEmailEsiste(email: string) {
+    let URL = environment.baseBackendUrl + `/users`;
+    return this.http.get<User[]>(URL).toPromise().then(users => {
+      if (users) {
+        return users.some(user => user.email.toLowerCase() === email.toLowerCase());
+      }
+      return false;
+    });
+  }
 }
