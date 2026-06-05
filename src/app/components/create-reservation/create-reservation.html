@@ -1,7 +1,7 @@
 <div class="container">
   <h2>Creazione Prenotazione Posti</h2>
 
-  <form [formGroup]="bookingForm" (ngSubmit)="addBooking()">
+  <form [formGroup]="bookingForm">
 
     <div class="form-group mt-3">
       <label for="utenteId">Seleziona Utente:</label>
@@ -41,9 +41,10 @@
     </div>
 
     <div class="form-actions mt-4">
-      <button class="btn btn-success" type="submit" [disabled]="bookingForm.invalid">
-        Conferma Prenotazione
+      <button class="btn btn-success" type="submit" [disabled]="!bookingForm.valid" (click)="addBooking()">
+        <i class="bi bi-check"></i>Conferma Prenotazione
       </button>
     </div>
+
   </form>
 </div>
