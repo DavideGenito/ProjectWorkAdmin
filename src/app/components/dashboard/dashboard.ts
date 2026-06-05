@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component } from '@angular/core';
 import { UserService } from '../../services/user-service';
 import { Router } from '@angular/router';
 import { User } from '../../models/User';
+import { AdminService } from '../../services/admin-service';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,6 +15,7 @@ export class Dashboard {
 
   constructor(
     private userService: UserService, 
+    private adminService: AdminService,
     private router: Router,
     private cd: ChangeDetectorRef
   ) {}
@@ -37,6 +39,12 @@ export class Dashboard {
       })
       this.numberUsers = utenti.length;
       this.cd.detectChanges();
+    });
+  }
+
+  getTodayReservation() {
+    this.adminService.getBookings(Date.now().toString(), Date.now().toString()).subscribe((res) => {
+      console.log(res);
     });
   }
 }
