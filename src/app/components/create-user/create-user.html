@@ -8,6 +8,9 @@
         <input type="text" class="form-control" id="lastName" formControlName="lastName">
         <label for="email" class="form-label mt-3">Email</label>
         <input type="email" class="form-control" id="email" formControlName="email">
+        <div *ngIf="userForm.get('email')?.hasError('emailExists') && userForm.get('email')?.touched" class="error-message">
+          <i class="bi bi-exclamation-circle"></i> Email già in uso
+        </div>
         <label for="role" class="form-label mt-3">Role</label>
         <select class="form-select" id="role" formControlName="role">
             <option value="Cliente">Cliente</option>
