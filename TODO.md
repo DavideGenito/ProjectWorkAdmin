@@ -18,11 +18,11 @@
 - [x] Controllare problemi broweser create reservation
 - [x] Tabella scorre in se stessa
 - [ ] Login se non metto email e altri campi non solo login mettere "manca email" o cose del genere 
-- [ ] Fascie orarie da sistemare reservation
+- [x] Fascie orarie da sistemare reservation
 - [ ] Edit reservation
 - [ ] Edit/create user se email uguale popup 
 - [ ] Trim input
-- [ ] Search reservation da implementare
+- [x] Search reservation da implementare
 - [ ] Change password mi fa cliccare 2 volte
 - [x] Reset email che diventerà edit nel profilo
 - [x] Reset password profilo sistemare
