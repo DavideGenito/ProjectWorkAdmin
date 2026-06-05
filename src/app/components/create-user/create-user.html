@@ -1,5 +1,5 @@
 <div class="container">
-    <h2 class="mb-4">Create New User</h2>
+    <h2 class="mb-4">{{ user ? 'Edit User' : 'Create User' }}</h2>
 
     <form [formGroup]="userForm">
         <label for="firstName" class="form-label">Name</label>

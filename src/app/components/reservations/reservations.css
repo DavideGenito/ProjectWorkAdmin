@@ -1,12 +1,20 @@
-.table-responsive {
+.table-wrapper {
+    overflow-y: auto;
+    overflow-x: hidden;
     max-height: 68vh;
 }
 
-.filter-dropdown-menu {
-    min-width: 15.6rem; 
+.table {
+    margin-bottom: 0 !important; 
+    vertical-align: middle;
+}
+
+.clickable-area {
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    user-select: none; 
 }
 
 .clickable-area:hover {
-    background: #ddd;
-    cursor: pointer;
+    background-color: var(--bs-secondary-bg);
 }

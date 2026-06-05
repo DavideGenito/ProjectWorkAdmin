@@ -1,25 +1,35 @@
 <div class="d-flex flex-column bg-body-secondary p-3 h-100">
     <h1 class="fs-4 mb-3">Admin Panel</h1>
     <ul class="nav nav-pills flex-column mb-auto">
-        <li class="nav-item">
+        <li class="nav-item mb-1">
             <a class="nav-link fs-6" routerLink="/dashboard" routerLinkActive="active" #rlaDash="routerLinkActive"
                 [class.text-reset]="!rlaDash.isActive">
                 <i class="bi bi-grid"></i> Dashboard
             </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item mb-1">
             <a class="nav-link fs-6" routerLink="/users" routerLinkActive="active" #rlaUsers="routerLinkActive"
                 [class.text-reset]="!rlaUsers.isActive">
                 <i class="bi bi-people"></i> Users
             </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item mb-1">
             <a class="nav-link fs-6" routerLink="/reservations" routerLinkActive="active" #rlaRes="routerLinkActive"
                 [class.text-reset]="!rlaRes.isActive">
                 <i class="bi bi-calendar3-event"></i> Reservations
             </a>
         </li>
     </ul>
+
+    <div class="mb-3 mt-auto">
+        <button class="btn btn-outline-secondary w-100 d-flex align-items-center justify-content-center gap-2" (click)="toggleTheme()">
+            @if (isDarkMode) {
+                <i class="bi bi-sun-fill"></i> Light Mode
+            } @else {
+                <i class="bi bi-moon-fill"></i> Dark Mode
+            }
+        </button>
+    </div>
     <hr>
     <div class="dropdown">
         <button class="btn dropdown-toggle fs-6" type="button" data-bs-toggle="dropdown" aria-expanded="false">

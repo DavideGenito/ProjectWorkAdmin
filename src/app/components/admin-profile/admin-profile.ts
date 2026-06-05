@@ -30,24 +30,27 @@ export class AdminProfile implements OnInit {
   }
   
   getUser() {
-    this.service.getCurrentUser().subscribe(
-      (user: any) => {
+    this.service.getCurrentUser().subscribe({
+      next: (user: any) => {
         this.currentUser = user;
         this.cd.detectChanges();
       },
-      (err: any) => {
+      error: (err: any) => {
         console.error('Errore nel recupero dell\'utente corrente', err);
       }
-    );
+    });
   }
+
   ResetPassword() {
     this.mostraResetPass = true;
   }
+
   eseguiResetPassword(nuovaPassword: string) {
     this.userService.ResetPassword(this.currentUser.id, nuovaPassword).subscribe(() => {
       this.mostraResetPass = false;
     });
   }
+  
   EditProfile(userId:number) {
     this.router.navigate([`users/${userId}/edit`])
   }
