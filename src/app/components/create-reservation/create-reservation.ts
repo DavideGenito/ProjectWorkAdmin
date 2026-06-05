@@ -16,7 +16,7 @@ import { Slots } from '../../models/Slots';
   imports: [CommonModule, ReactiveFormsModule],
 })
 export class CreateReservation implements OnInit {
-  
+
   bookingForm = new FormGroup({
     utenteId: new FormControl('', Validators.required),
     data: new FormControl('', Validators.required),
@@ -28,7 +28,11 @@ export class CreateReservation implements OnInit {
   spaces: Space[] = [];
   slots: Slots[] = [];
 
-  constructor(private adminService: AdminService, private userService: UserService, private router: Router) { }
+  constructor(
+    private adminService: AdminService, 
+    private userService: UserService, 
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.loadUsers();
@@ -40,7 +44,7 @@ export class CreateReservation implements OnInit {
       this.bookingForm.get('spaceId')?.reset('', { emitEvent: false });
       this.bookingForm.get('slotId')?.reset('', { emitEvent: false });
       this.slots = [];
-      
+
       if (date) {
         this.loadSpacesAvailable(date);
       } else {
@@ -69,7 +73,9 @@ export class CreateReservation implements OnInit {
 
   loadSpacesAvailable(date: string) {
     this.adminService.getAvailability(date).subscribe({
-      next: (availableSpaces: any) => this.spaces = availableSpaces,
+      next: (availableSpaces: any) => {
+        this.spaces = availableSpaces;
+      },
       error: (err) => console.error('Errore caricamento spazi', err)
     });
   }
@@ -77,7 +83,7 @@ export class CreateReservation implements OnInit {
   loadSlotsAvailable(spaceId: number, date: string) {
     this.adminService.getSlotsAvailable(spaceId, date).subscribe({
       next: (res: any) => {
-        this.slots = res.slots
+        this.slots = res.slots || res; 
       },
       error: (err) => console.error('Errore caricamento slot', err)
     });

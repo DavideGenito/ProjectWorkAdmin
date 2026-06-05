@@ -24,9 +24,6 @@ export class CreateUser {
 
   constructor(private route: ActivatedRoute, private router: Router, private userService: UserService) {
     let id = Number.parseInt(this.route.snapshot.params['id']);
-    this.userService.VisualizzaUtenti().subscribe((utenti) => {
-    });
-
 
     if (id) {
       this.userService.DettagliUtente(id).subscribe((user: User) => {

@@ -149,11 +149,7 @@ export class Reservations implements OnInit {
     this.router.navigate(['/reservations/new']);
   }
 
-  goEdit(booking: any) {
-    //nothing
-  }
-
-  viewDetails(booking: any) {
+  viewDetails(booking: ReservationModel) {
     this.router.navigate(['/reservations/view/', booking.id]);
   }
 }
