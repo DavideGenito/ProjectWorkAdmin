@@ -1,3 +1,12 @@
 .table-responsive {
     max-height: 68vh;
 }
+
+.filter-dropdown-menu {
+    min-width: 15.6rem; 
+}
+
+.clickable-area:hover {
+    background: #ddd;
+    cursor: pointer;
+}
