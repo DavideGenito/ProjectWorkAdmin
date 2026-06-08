@@ -69,7 +69,7 @@ export class CreateReservation implements OnInit {
   }
 
   loadUsers() {
-    this.userService.VisualizzaUtenti().subscribe({
+    this.userService.VisualizzaUtenti().subscribe({      
       next: (users) => {
         this.listaUtenti = users
          this.cd.detectChanges()
