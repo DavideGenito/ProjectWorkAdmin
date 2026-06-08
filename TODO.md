@@ -13,7 +13,7 @@
 - [x] Disabilitare delete per il proprio utente
 - [x] Disabilitare bottoni su altri amministratori
 - [x] Controllare per i decimali
-- [ ] Footer migliorare
+- [x] Footer migliorare
 - [x] Migliorare new reservation
 - [x] Controllare problemi broweser create reservation
 - [x] Tabella scorre in se stessa
