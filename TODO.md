@@ -28,7 +28,7 @@
 - [x] Reset password profilo sistemare
 - [x] Nome nella sidebar
 - [ ] Implementa dashboard
-- [ ] Bottone per uscire da view reservation
+- [ ] Bottone per uscire da view reservation modificare la grafica
 - [ ] mettere la classe per togliere il bottone clear quando la ricerca con il filtro non è attiva
 - [ ] Aggiungere nessun user trovato alla tabella quando non ci sono utenti che corrispondono alla ricerca
 - [ ] Per il filtro della ricerca per data delle reservation mettere come minimo di default il giorno di oggi
