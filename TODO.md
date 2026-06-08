@@ -21,7 +21,7 @@
 - [x] Fascie orarie da sistemare reservation
 - [ ] ~~Edit reservation~~
 - [x] Edit/create user se email uguale popup 
-- [ ] Trim input
+- [x] Trim input
 - [x] Search reservation da implementare
 - [ ] Change password mi fa cliccare 2 volte
 - [x] Reset email che diventerà edit nel profilo
