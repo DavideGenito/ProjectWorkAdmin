@@ -1,20 +1,24 @@
 <div class="container">
     <h2 class="mb-4">Users Management</h2>
 
-    <div class="mb-3 row">
-        <div class="col-sm-6">
-            <input type="text" class="form-control" placeholder="Search users by name..." [formControl]="search">
+    <div class="mb-3 row g-2 align-items-center">
+        <div class="col-sm-8">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search users by name..." [formControl]="search">
+                @if (search.value) {
+                <button class="btn btn-outline-secondary" type="button" (click)="clearSearch()">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+                }
+            </div>
         </div>
+
         <div class="col-sm-2">
             <button class="btn btn-primary w-100" (click)="searchUsers()">
                 <i class="bi bi-search"></i> Search
             </button>
         </div>
-        <div class="col-sm-2">
-            <button class="btn btn-secondary w-100" (click)="clearSearch()" [class.disabled]="!search.value">
-                <i class="bi bi-x"></i> Clear   
-            </button>
-        </div>
+
         <div class="col-sm-2">
             <button class="btn btn-success w-100" (click)="createUser()">
                 <i class="bi bi-plus"></i> Create User
