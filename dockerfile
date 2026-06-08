@@ -8,4 +8,5 @@ RUN npm run build
 # stage 2
 FROM nginx:stable-alpine-perl
 COPY --from=build /opt/app/dist/ProjectWorkAdmin/browser /usr/share/nginx/html
+COPY ./nginx-custom.conf  /etc/nginx/conf.d/default.conf
 CMD exec nginx -g 'daemon off;'
