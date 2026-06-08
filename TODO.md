@@ -20,7 +20,7 @@
 - [ ] Login se non metto email e altri campi non solo login mettere "manca email" o cose del genere 
 - [x] Fascie orarie da sistemare reservation
 - [ ] ~~Edit reservation~~
-- [ ] Edit/create user se email uguale popup 
+- [x] Edit/create user se email uguale popup 
 - [ ] Trim input
 - [x] Search reservation da implementare
 - [ ] Change password mi fa cliccare 2 volte
