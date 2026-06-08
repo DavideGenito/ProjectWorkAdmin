@@ -25,7 +25,19 @@ export class Login {
 
     this.userService.Login(email, password).subscribe({
       next: () => {
-        this.router.navigate(['/dashboard']);
+        this.userService.DettagliUtenteAutenticato().subscribe({
+          next: (user) => {
+            console.log(user);
+            if(user.role == "Amministrazione") {
+              this.router.navigate(['/dashboard']);
+            } else {
+              this.userService.Logout();
+              this.errorMessage = "Accesso negato: non sei un amministratore";
+              this.cd.detectChanges();
+            }
+          }
+        })
+        
       },
       error: (err) => {
         if (err.status == 401) {

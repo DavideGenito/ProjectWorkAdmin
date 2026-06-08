@@ -6,6 +6,7 @@ import { UserService } from '../../services/user-service';
 import { User } from '../../models/User';
 import { Observable, of, from } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
+import { trimMinLengthValidator } from '../../models/trim-min-length.validator';
 
 @Component({
   selector: 'app-create-user',
@@ -15,12 +16,12 @@ import { map, catchError } from 'rxjs/operators';
 })
 export class CreateUser {
   userForm: FormGroup = new FormGroup({
-      firstName: new FormControl('', Validators.required),
-      lastName: new FormControl('', Validators.required),
-      email: new FormControl('', [Validators.required, Validators.email], [this.emailExistsValidator()]),
+      firstName: new FormControl('', [Validators.required, trimMinLengthValidator(2)]),
+      lastName: new FormControl('', [Validators.required, trimMinLengthValidator(2)]),
+      email: new FormControl('', [Validators.required, Validators.email,  trimMinLengthValidator(5)], [this.emailExistsValidator()]),
       credit: new FormControl('', [Validators.required, Validators.min(0), Validators.pattern('^[0-9]+(?:\\.[0-9]{1,2})?$')]),
       role: new FormControl('', Validators.required),
-      password: new FormControl('', [Validators.required, Validators.minLength(8)])
+      password: new FormControl('', [Validators.required, Validators.minLength(8), trimMinLengthValidator(8)]),
     });
   allUsers: User[] = [];
   emailExists = false;
@@ -77,12 +78,12 @@ export class CreateUser {
   createUser() {
     if (this.userForm.valid) {
       this.userService.CreaUtente(
-        this.userForm.value.firstName?.toString() ?? '',
-        this.userForm.value.lastName?.toString() ?? '',
-        this.userForm.value.email?.toString() ?? '',
+        this.userForm.value.firstName?.toString().trim() ?? '',
+        this.userForm.value.lastName?.toString().trim() ?? '',
+        this.userForm.value.email?.toString().trim() ?? '',
         Number.parseInt(this.userForm.value.credit?.toString() ?? '0'),
         this.userForm.value.role?.toString() ?? '',
-        this.userForm.value.password?.toString() ?? ''
+        this.userForm.value.password?.toString().trim() ?? ''
       ).subscribe(
         () => this.router.navigate(['/users'])
       );
@@ -92,12 +93,12 @@ export class CreateUser {
   editUser() {
     if (this.userForm.valid && this.userForm.dirty) {
       let newUser = new User(
-        this.userForm.value.firstName?.toString() ?? '',
-        this.userForm.value.lastName?.toString() ?? '',
-        this.userForm.value.email?.toString() ?? '',
+        this.userForm.value.firstName?.toString().trim() ?? '',
+        this.userForm.value.lastName?.toString().trim() ?? '',
+        this.userForm.value.email?.toString().trim() ?? '',
         Number.parseInt(this.userForm.value.credit?.toString() ?? '0'),
         this.userForm.value.role?.toString() ?? '',
-        this.userForm.value.password?.toString() ?? ''
+        this.userForm.value.password?.toString().trim() ?? ''
       );
       newUser.id = this.user?.id ?? 0;
 

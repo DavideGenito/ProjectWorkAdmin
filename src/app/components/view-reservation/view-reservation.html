@@ -33,5 +33,9 @@
       <div class="col-sm-3 fw-bold text-muted"><i class="bi bi-cash-coin me-2"></i>Importo</div>
       <div class="col-sm-9 fw-bold text-primary fs-5">{{reservation?.space?.slotPrice | currency:'EUR'}}</div>
     </div>
+
+    <button class="btn btn-secondary mt-4" (click)="BackToReservations()">
+      <i class="bi bi-arrow-left"></i> Back to Reservations
+    </button>
   </div>
 </div>

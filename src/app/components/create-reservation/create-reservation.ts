@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -31,7 +31,8 @@ export class CreateReservation implements OnInit {
   constructor(
     private adminService: AdminService, 
     private userService: UserService, 
-    private router: Router
+    private router: Router,
+    private cd: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -66,8 +67,12 @@ export class CreateReservation implements OnInit {
 
   loadUsers() {
     this.userService.VisualizzaUtenti().subscribe({
-      next: (users) => this.listaUtenti = users,
+      next: (users) => {
+        this.listaUtenti = users
+         this.cd.detectChanges()
+      } ,
       error: (err) => console.error('Errore caricamento utenti', err)
+      
     });
   }
 
