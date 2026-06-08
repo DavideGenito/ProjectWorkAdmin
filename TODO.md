@@ -31,7 +31,7 @@
 - [ ] Bottone per uscire da view reservation modificare la grafica
 - [ ] mettere una x al posto del bottone clear filtro perchè fa cagare
 - [ ] Aggiungere nessun user trovato alla tabella quando non ci sono utenti che corrispondono alla ricerca
-- [ ] Per il filtro della ricerca per data delle reservation mettere come minimo di default il giorno di oggi
+- [x] Per il filtro della ricerca per data delle reservation mettere come minimo di default il giorno di oggi
 - [x] Quando faccio una nuova reservation se seleziono come prima cosa l'utente mi escono delle righe vuote e non posso selezionare nulla
 - [x] Aggiungere i crediti nella schermata del profile
 - [x] Non permettere ai clienti di fare l'accesso all'app
