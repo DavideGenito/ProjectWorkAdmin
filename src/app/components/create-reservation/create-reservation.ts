@@ -7,6 +7,8 @@ import { UserService } from '../../services/user-service';
 import { User } from '../../models/User';
 import { Space } from '../../models/Space';
 import { Slots } from '../../models/Slots';
+import { ErrorService } from '../../services/error-service';
+import { minDateValidator } from '../../models/min-date.validator';
 
 @Component({
   selector: 'app-create-reservation',
@@ -19,7 +21,7 @@ export class CreateReservation implements OnInit {
 
   bookingForm = new FormGroup({
     utenteId: new FormControl('', Validators.required),
-    data: new FormControl('', Validators.required),
+    data: new FormControl('', [Validators.required, minDateValidator(new Date())]),
     spaceId: new FormControl('', Validators.required),
     slotId: new FormControl('', Validators.required),
   });
@@ -31,7 +33,8 @@ export class CreateReservation implements OnInit {
   constructor(
     private adminService: AdminService, 
     private userService: UserService, 
-    private router: Router
+    private router: Router,
+    private errorService: ErrorService
   ) {}
 
   ngOnInit() {
@@ -67,7 +70,7 @@ export class CreateReservation implements OnInit {
   loadUsers() {
     this.userService.VisualizzaUtenti().subscribe({
       next: (users) => this.listaUtenti = users,
-      error: (err) => console.error('Errore caricamento utenti', err)
+      error: (err) => this.errorService.error("Errore nel caricamento di tutti gli user" ,'Errore caricamento utenti ' + err)
     });
   }
 
@@ -76,7 +79,7 @@ export class CreateReservation implements OnInit {
       next: (availableSpaces: any) => {
         this.spaces = availableSpaces;
       },
-      error: (err) => console.error('Errore caricamento spazi', err)
+      error: (err) => this.errorService.error("Errore caricamento spazi disponibili", 'Errore caricamento spazi ' + err)
     });
   }
 
@@ -85,7 +88,7 @@ export class CreateReservation implements OnInit {
       next: (res: any) => {
         this.slots = res.slots || res; 
       },
-      error: (err) => console.error('Errore caricamento slot', err)
+      error: (err) => this.errorService.error("Errore caricamento degli slot disponibili" ,'Errore caricamento slot ' + err)
     });
   }
 
@@ -96,10 +99,11 @@ export class CreateReservation implements OnInit {
 
     this.adminService.newBooking(Number(utenteId), Number(slotId)).subscribe({
       next: () => {
+        this.errorService.success("Prenotazione creata con successo");
         this.router.navigate(['/reservations']);
       },
       error: (err) => {
-        console.error('Errore nella creazione della prenotazione', err);
+        this.errorService.error("Errore nella creazione della prenotazione",'Errore nella creazione della prenotazione ' + err);
       }
     });
   }

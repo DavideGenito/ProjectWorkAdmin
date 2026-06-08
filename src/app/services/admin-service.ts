@@ -35,6 +35,7 @@ export class AdminService {
   getUser(id: number) {
     return this.http.get(`${this.host}/admin/users/${id}`);
   }
+  
   getCurrentUser() {
     return this.http.get(`${this.host}/profile`);
   }

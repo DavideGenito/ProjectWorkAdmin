@@ -5,8 +5,8 @@
       <main class="p-4" [class.col-12]="!isLogged()" [class.col-10]="isLogged()">
         <app-loading-spinner></app-loading-spinner>
         <router-outlet></router-outlet>
+        <app-error-toast></app-error-toast>
       </main>
     </div>
   </div>
-  <app-footer class="d-block"></app-footer>
 </div>

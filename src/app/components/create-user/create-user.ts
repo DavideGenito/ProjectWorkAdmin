@@ -6,6 +6,7 @@ import { UserService } from '../../services/user-service';
 import { User } from '../../models/User';
 import { Observable, of, from } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
+import { ErrorService } from '../../services/error-service';
 
 @Component({
   selector: 'app-create-user',
@@ -25,7 +26,7 @@ export class CreateUser {
   allUsers: User[] = [];
   emailExists = false;
 
-  constructor(private route: ActivatedRoute, private router: Router, private userService: UserService) {
+  constructor(private route: ActivatedRoute, private router: Router, private userService: UserService, private errorService: ErrorService) {
     let id = Number.parseInt(this.route.snapshot.params['id']);
     this.userService.VisualizzaUtenti().subscribe((utenti) => {
       this.allUsers = utenti;
@@ -84,7 +85,10 @@ export class CreateUser {
         this.userForm.value.role?.toString() ?? '',
         this.userForm.value.password?.toString() ?? ''
       ).subscribe(
-        () => this.router.navigate(['/users'])
+        () => {
+          this.errorService.success("Utente creato con successo");
+          this.router.navigate(['/users']);
+        }
       );
     }
   }
@@ -103,6 +107,7 @@ export class CreateUser {
 
 
       this.userService.ModificaUtente(newUser).subscribe(() => {
+        this.errorService.success("Utente modificato con successo");
         this.router.navigate(['/users']);
       });
     }

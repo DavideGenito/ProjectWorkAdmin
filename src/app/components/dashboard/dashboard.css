@@ -1,0 +1,15 @@
+.compact-scroll-container {
+    max-height: 250px;
+    overflow-y: auto;
+    background-color: var(--bs-body-bg);
+}
+
+.grid-item-border {
+    border-bottom: 1px solid var(--bs-border-color);
+}
+
+@media (min-width: 768px) {
+    .grid-item-border:nth-child(odd) {
+        border-right: 1px solid var(--bs-border-color);
+    }
+}

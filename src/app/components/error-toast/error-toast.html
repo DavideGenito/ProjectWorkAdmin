@@ -1,0 +1,27 @@
+<div class="toast-stack" aria-live="polite" aria-atomic="false">
+  @for (toast of errorService.toasts(); track trackById($index, toast)) {
+    <div
+      class="toast show"
+      role="alert"
+      aria-live="assertive"
+      aria-atomic="true"
+    >
+      <div class="toast-header" [ngClass]="typeConfig[toast.type].header">
+        <i [class]="typeConfig[toast.type].icon + ' me-2'" aria-hidden="true"></i>
+        <strong class="me-auto">{{ typeConfig[toast.type].label }}</strong>
+        <small class="toast-time ms-2">
+          {{ toast.timestamp | date: 'HH:mm:ss' }}
+        </small>
+        <button
+          type="button"
+          class="btn-close btn-close-white ms-2"
+          aria-label="Chiudi"
+          (click)="errorService.dismiss(toast.id)"
+        ></button>
+      </div>
+      <div class="toast-body bg-body-tertiary">
+        {{ toast.visual }}
+      </div>
+    </div>
+  }
+</div>

@@ -1,6 +1,7 @@
+// login.component.ts
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { UserService } from '../../services/user-service';
+import { AuthService } from '../../services/auth-service'; 
 import { Router } from "@angular/router";
 
 @Component({
@@ -17,13 +18,13 @@ export class Login {
 
   errorMessage = "";
 
-  constructor(private userService: UserService, private router: Router, private cd: ChangeDetectorRef) { }
+  constructor(private authService: AuthService, private router: Router, private cd: ChangeDetectorRef) { }
 
   Login() {
     let email = this.loginForm.controls.email.value;
     let password = this.loginForm.controls.password.value;
 
-    this.userService.Login(email, password).subscribe({
+    this.authService.login(email!, password!).subscribe({
       next: () => {
         this.router.navigate(['/dashboard']);
       },

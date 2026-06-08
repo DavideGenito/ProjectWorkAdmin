@@ -8,7 +8,6 @@ import { Login } from './components/login/login';
 import { CreateReservation } from './components/create-reservation/create-reservation';
 import { CreateUser } from './components/create-user/create-user';
 import { ViewReservation } from './components/view-reservation/view-reservation';
-import { ResetPass } from './components/reset-pass/reset-pass';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'dashboard', pathMatch: 'full' },

@@ -4,6 +4,8 @@ import { FormGroup, FormControl, FormsModule, ReactiveFormsModule } from '@angul
 import { AdminService } from '../../services/admin-service';
 import { Router } from '@angular/router';
 import { ReservationModel } from '../../models/Reservation-Model';
+import { minDateValidator } from '../../models/min-date.validator';
+import { ErrorService } from '../../services/error-service';
 
 type SortColumn = 'id' | 'date' | 'spaceName' | 'userName';
 
@@ -23,16 +25,19 @@ export class Reservations implements OnInit {
   sortKey: SortColumn = 'date';
   sortDirection: 'asc' | 'desc' = 'asc';
 
+  fromDate = new FormControl('');
+  toDate = new FormControl('', minDateValidator(new Date(this.fromDate.value ? this.fromDate.value : new Date())));
+
   dateForm = new FormGroup({
-    fromDate: new FormControl(''),
-    toDate: new FormControl(''),
+    fromDate: this.fromDate,
+    toDate: this.toDate,
   });
 
-  constructor(private service: AdminService, private router: Router, private cd: ChangeDetectorRef) { }
+  constructor(private service: AdminService, private router: Router, private cd: ChangeDetectorRef, private errorService: ErrorService) { }
 
   ngOnInit() {
     let fromDate = new Date();
-    fromDate.setFullYear(fromDate.getFullYear() - 100);
+    fromDate.setFullYear(fromDate.getFullYear());
 
     let toDate = new Date();
     toDate.setFullYear(toDate.getFullYear() + 100);
@@ -58,7 +63,7 @@ export class Reservations implements OnInit {
           this.applyFilterAndSort();
           this.cd.detectChanges();
         },
-        error: (err) => console.error('Errore nel caricamento delle prenotazioni', err)
+        error: (err) => this.errorService.error("Errore nel caricamento delle prenotazioni", 'Errore nel caricamento delle prenotazioni ' + err)
       });
     }
   }
@@ -80,6 +85,11 @@ export class Reservations implements OnInit {
   applyFilterAndSort() {
     let filtered = [...this.bookings];
     const searchText = this.searchControl.value;
+
+    if (this.dateForm.invalid) {
+      this.errorService.warn("Date non valide", "Date non valide");
+      return;
+    }
 
     if (searchText && searchText.trim() !== '') {
       const search = searchText.toLowerCase().trim();
@@ -137,12 +147,13 @@ export class Reservations implements OnInit {
     const slotId = booking.id;
     if (!slotId) return;
 
-    if (confirm('Sei sicuro di voler eliminare questa prenotazione?')) {
-      this.service.removeBooking(slotId).subscribe({
-        next: () => this.loadBookings(),
-        error: (err) => console.error(err),
-      });
-    }
+    this.service.removeBooking(slotId).subscribe({
+      next: () => {
+        this.loadBookings();
+        this.errorService.success("Prenotazione cancellata con successo");
+      },
+      error: (err) => this.errorService.error("Errore nel cancellare la prenotazione", err),
+    });
   }
 
   goCreate() {
