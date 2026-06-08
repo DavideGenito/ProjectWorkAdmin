@@ -28,3 +28,10 @@
 - [x] Reset password profilo sistemare
 - [x] Nome nella sidebar
 - [ ] Implementa dashboard
+- [ ] Bottone per uscire da view reservation
+- [ ] mettere la classe per togliere il bottone clear quando la ricerca con il filtro non è attiva
+- [ ] Aggiungere nessun user trovato alla tabella quando non ci sono utenti che corrispondono alla ricerca
+- [ ] Per il filtro della ricerca per data delle reservation mettere come minimo di default il giorno di oggi
+- [ ] Quando faccio una nuova reservation se seleziono come prima cosa l'utente mi escono delle righe vuote e non posso selezionare nulla
+- [ ] Aggiungere i crediti nella schermata del profile
+- [ ] Non permettere ai clienti di fare l'accesso all'app
