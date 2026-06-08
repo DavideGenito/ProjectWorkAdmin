@@ -27,7 +27,7 @@
 - [x] Reset email che diventerà edit nel profilo
 - [x] Reset password profilo sistemare
 - [x] Nome nella sidebar
-- [ ] Implementa dashboard
+- [x] Implementa dashboard
 - [ ] Bottone per uscire da view reservation modificare la grafica
 - [ ] mettere una x al posto del bottone clear filtro perchè fa cagare
 - [x] Aggiungere nessun user trovato alla tabella quando non ci sono utenti che corrispondono alla ricerca
