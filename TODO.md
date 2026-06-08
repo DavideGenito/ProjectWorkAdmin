@@ -13,7 +13,7 @@
 - [x] Disabilitare delete per il proprio utente
 - [x] Disabilitare bottoni su altri amministratori
 - [x] Controllare per i decimali
-- [ ] Footer migliorare
+- [x] Footer migliorare
 - [x] Migliorare new reservation
 - [x] Controllare problemi broweser create reservation
 - [x] Tabella scorre in se stessa
@@ -21,10 +21,17 @@
 - [x] Fascie orarie da sistemare reservation
 - [ ] ~~Edit reservation~~
 - [x] Edit/create user se email uguale popup 
-- [ ] Trim input
+- [x] Trim input
 - [x] Search reservation da implementare
 - [ ] Change password mi fa cliccare 2 volte
 - [x] Reset email che diventerà edit nel profilo
 - [x] Reset password profilo sistemare
 - [x] Nome nella sidebar
 - [ ] Implementa dashboard
+- [ ] Bottone per uscire da view reservation modificare la grafica
+- [ ] mettere una x al posto del bottone clear filtro perchè fa cagare
+- [x] Aggiungere nessun user trovato alla tabella quando non ci sono utenti che corrispondono alla ricerca
+- [x] Per il filtro della ricerca per data delle reservation mettere come minimo di default il giorno di oggi
+- [x] Quando faccio una nuova reservation se seleziono come prima cosa l'utente mi escono delle righe vuote e non posso selezionare nulla
+- [x] Aggiungere i crediti nella schermata del profile
+- [x] Non permettere ai clienti di fare l'accesso all'app
