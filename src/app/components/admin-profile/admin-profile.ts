@@ -5,6 +5,7 @@ import { User } from '../../models/User';
 import { ChangeDetectorRef } from '@angular/core';
 import { UserService } from '../../services/user-service';
 import { ResetPass } from '../reset-pass/reset-pass';
+import { ErrorService } from '../../services/error-service';
 
 @Component({
   selector: 'app-admin-profile',
@@ -20,7 +21,8 @@ export class AdminProfile implements OnInit {
     private route: ActivatedRoute, 
     private cd: ChangeDetectorRef,
     private router:Router,
-    private userService:UserService
+    private userService:UserService,
+    private erroService:ErrorService
   ) {
 
   }
@@ -36,7 +38,7 @@ export class AdminProfile implements OnInit {
         this.cd.detectChanges();
       },
       error: (err: any) => {
-        console.error('Errore nel recupero dell\'utente corrente', err);
+        this.erroService.error("Errore nel caricare lo user", 'Errore nel recupero dell\'utente corrente' + err);
       }
     });
   }

@@ -4,6 +4,7 @@ import { User } from '../../models/User';
 import { Router } from '@angular/router';
 import { ResetPass } from '../reset-pass/reset-pass';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ErrorService } from '../../services/error-service';
 
 @Component({
   selector: 'app-users-page',
@@ -26,7 +27,7 @@ export class UsersPage implements OnInit {
 
   isLoadeing = false;
 
-  constructor(public userService: UserService, private router: Router,private cd: ChangeDetectorRef) 
+  constructor(public userService: UserService, private errorService: ErrorService, private router: Router,private cd: ChangeDetectorRef) 
   {
 
   }
@@ -75,6 +76,7 @@ export class UsersPage implements OnInit {
   deleteUser(id: number) {
     this.userService.CancellaUtente(id).subscribe(() => {
       this.loadUsers();
+      this.errorService.success("Utente cancellato con successo");
     });
   }
 

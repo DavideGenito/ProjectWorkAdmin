@@ -4,6 +4,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { tap } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { AuthToken } from '../models/AuthToken';
+import { ErrorService } from './error-service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +15,8 @@ export class AuthService {
 
   private readonly _isLogged = signal<boolean>(false);
   readonly isLogged = this._isLogged.asReadonly();
-
-  constructor(private http : HttpClient) { 
+  
+  constructor(private http : HttpClient, private errorService: ErrorService) { 
     this._isLogged.set(this.checkTokenValidity());
   }
 
@@ -56,7 +57,7 @@ export class AuthService {
     try {
       return !this.jwtHelper.isTokenExpired(token);
     } catch (e) {
-      console.error("Token non valido o scaduto", e);
+      this.errorService.error("Token non valido o scaduto", e instanceof Error ? e.message : String(e));
       return false;
     }
   }
