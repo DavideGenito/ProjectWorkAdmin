@@ -25,7 +25,7 @@ export const routes: Routes = [
             { path: 'reservations', component: Reservations},
             { path: 'reservations/new', component: CreateReservation },
             { path: 'reservations/view/:id', component: ViewReservation },
-            { path: 'profile', component: AdminProfile }
+            { path: 'profile', component: AdminProfile },
         ]
     },
 

@@ -1,43 +1,50 @@
-<div class="booking-container">
+<div class="container">
   <h2>Creazione Prenotazione Posti</h2>
 
-  <form #bookingForm="ngForm" (ngSubmit)="addBooking()">
+  <form [formGroup]="bookingForm">
 
-    <div class="form-group">
-      <label for="utente">Seleziona Utente:</label>
-      <select id="utente" name="utente" [(ngModel)]="prenotazione.utenteId" required>
-        <option value="" disabled selected>Scegli un utente...</option>
-        <option *ngFor="let utente of listaUtenti" [value]="utente.id">
-          {{ utente.firstName }} {{ utente.lastName }}
-        </option>
+    <div class="form-group mt-3">
+      <label for="utenteId">Seleziona Utente:</label>
+      <select id="utenteId" class="form-control mt-1" formControlName="utenteId">
+        <option value="" disabled>Scegli un utente...</option>
+        @for (utente of listaUtenti; track utente.id) {
+          <option [value]="utente.id">
+            {{ utente.firstName }} {{ utente.lastName }}
+          </option>
+        }
       </select>
     </div>
 
-    <div class="form-group">
+    <div class="form-group mt-3">
       <label for="data">Data Prenotazione:</label>
-      <input type="date" (change)="SpacesAvailable()" id="data" name="data" [(ngModel)]="prenotazione.data" required />
+      <input id="data" class="form-control mt-1" type="date" formControlName="data" />
     </div>
 
-      <label for="PostazioneRiunioni">Postazione:</label>
-      <select (change)="SlotsAvailable(getSpaceId(prenotazione.postazione))"id="PostazioneRiunioni" name="PostazioneRiunioni" [(ngModel)]="prenotazione.postazione" required>
-        <option value="" disabled selected>Scegli la postazione...</option>
-        <div *ngFor="let s of Spaces">
-        <option [value]="s.name">{{ s.name }}</option>
-        </div>
+    <div class="form-group mt-3">
+      <label for="spaceId">Postazione:</label>
+      <select id="spaceId" class="form-control mt-1" formControlName="spaceId">
+        <option value="" disabled>Scegli la postazione...</option>
+        @for (s of spaces; track s.id) {
+          <option [value]="s.id">{{ s.name }}</option>
+        }
       </select>
-  <div class="form-group">
-    <label for="slotMezzaGiornata">Durata Prenotazione:</label>
-    <select [formControl]="select" id="slotMezzaGiornata" name="slotMezzaGiornata" [(ngModel)]="prenotazione.slotOrario" required>
-      <option value="" disabled selected>Scegli la fascia oraria...</option>
-      <div *ngFor="let s of Slots">
-        <option (click)="saveIndex(s.id)" [value]="s.id">{{ s.start|date:'HH:mm' }}</option>
-      </div>
-    </select>
-  </div>
-<div class="form-actions">
-  <button type="submit" [disabled]="!bookingForm.form.valid" class="btn-conferma">
-    Conferma Prenotazione
-  </button>
-</div>
-</form>
+    </div>
+
+    <div class="form-group mt-3">
+      <label for="slotId">Durata Prenotazione:</label>
+      <select id="slotId" class="form-control mt-1" formControlName="slotId">
+        <option value="" disabled>Scegli la fascia oraria...</option>
+        @for (s of slots; track s.id) {
+          <option [value]="s.id">{{ s.start | date:'HH:mm' }} - {{ s.end | date:'HH:mm' }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="form-actions mt-4">
+      <button class="btn btn-success" type="submit" [disabled]="!bookingForm.valid" (click)="addBooking()">
+        <i class="bi bi-check"></i>Conferma Prenotazione
+      </button>
+    </div>
+
+  </form>
 </div>

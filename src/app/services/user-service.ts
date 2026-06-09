@@ -3,12 +3,12 @@ import { Injectable } from '@angular/core';
 import { User } from '../models/User';
 import { AuthService } from './auth-service';
 import { environment } from '../../environments/environment';
+import { map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  
 
   constructor(private http: HttpClient, private auth: AuthService) {
   }
@@ -23,7 +23,7 @@ export class UserService {
 
   VisualizzaUtenti() {
     let URL = environment.baseBackendUrl + `/users`;
-    return this.http.get<User[]>(URL);    
+    return this.http.get<User[]>(URL);
   }
 
   CreaUtente(firstName: string, lastName: string, email: string, credit: number, role: string, password: string) {
@@ -69,5 +69,23 @@ export class UserService {
   DettagliUtente(id: number) {
     let URL = environment.baseBackendUrl + `/users/${id}`;
     return this.http.get<User>(URL);
+  }
+
+  DettagliUtenteAutenticato() {
+    let URL = environment.baseBackendUrl + '/profile'
+    return this.http.get<User>(URL)
+  }
+
+  VerificaEmailEsiste(email: string): Observable<boolean> {
+    let URL = environment.baseBackendUrl + `/users`;
+
+    return this.http.get<User[]>(URL).pipe(
+      map(users => {
+        if (users) {
+          return users.some(user => user.email.toLowerCase() === email.toLowerCase());
+        }
+        return false;
+      })
+    );
   }
 }

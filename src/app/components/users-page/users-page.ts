@@ -1,9 +1,10 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, signal } from '@angular/core';
 import { UserService } from '../../services/user-service';
 import { User } from '../../models/User';
 import { Router } from '@angular/router';
 import { ResetPass } from '../reset-pass/reset-pass';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ErrorService } from '../../services/error-service';
 
 @Component({
   selector: 'app-users-page',
@@ -13,7 +14,9 @@ import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
   styleUrl: './users-page.css',
 })
 export class UsersPage implements OnInit {
-  search = new FormControl('', Validators.required);
+  search = new FormControl('');
+
+  currentUserId = signal<number>(0);
 
   mostraResetPass = false;
   idUtenteSelezionato!: number;
@@ -24,14 +27,21 @@ export class UsersPage implements OnInit {
 
   isLoadeing = false;
 
-  constructor(
-    public userService: UserService,
-    private router: Router,
-    private cd: ChangeDetectorRef
-  ) { }
+  constructor(public userService: UserService, private errorService: ErrorService, private router: Router,private cd: ChangeDetectorRef) 
+  {
+
+  }
 
   ngOnInit() {
+    this.FindCurrentUser();
     this.loadUsers();
+  }
+
+  async FindCurrentUser()
+  {
+    await this.userService.DettagliUtenteAutenticato().subscribe((user) => {
+      this.currentUserId.set(user.id);
+    }); 
   }
 
   loadUsers() {
@@ -66,6 +76,7 @@ export class UsersPage implements OnInit {
   deleteUser(id: number) {
     this.userService.CancellaUtente(id).subscribe(() => {
       this.loadUsers();
+      this.errorService.success("Utente cancellato con successo");
     });
   }
 
@@ -77,6 +88,8 @@ export class UsersPage implements OnInit {
   eseguiResetPassword(nuovaPassword: string) {
     this.userService.ResetPassword(this.idUtenteSelezionato.toString(), nuovaPassword).subscribe(() => {
       this.mostraResetPass = false;
+      this.cd.detectChanges();
+      this.errorService.success("Password modificata con successo");
     });
   }
 

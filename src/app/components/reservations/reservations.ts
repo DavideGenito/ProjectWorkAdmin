@@ -1,41 +1,139 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormGroup, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdminService } from '../../services/admin-service';
 import { Router } from '@angular/router';
 import { ReservationModel } from '../../models/Reservation-Model';
-import { ChangeDetectorRef } from '@angular/core';
+import { minDateValidator } from '../../models/min-date.validator';
+import { ErrorService } from '../../services/error-service';
 
-type SortColumn = 'userName' | 'userSurname' | 'spaceName' | 'date' | 'time' | 'price';
+type SortColumn = 'id' | 'date' | 'spaceName' | 'userName';
 
 @Component({
   selector: 'app-reservations',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './reservations.html',
   styleUrls: ['./reservations.css'],
 })
 export class Reservations implements OnInit {
   bookings: ReservationModel[] = [];
-  fromDate = `${new Date().getFullYear()-100}-${String(new Date().getMonth()).padStart(2, '0')}-${String(new Date().getDate()).padStart(2, '0')}`;
-  toDate = `${new Date().getFullYear()+100}-${String(new Date().getMonth() + 1).padStart(2, '0')}-${String(new Date().getDate()).padStart(2, '0')}`;
-  sortColumn: SortColumn = 'date';
-  sortAsc = true;
+  sortedBookings: ReservationModel[] = [];
 
-  constructor(private service: AdminService, private router: Router, private cd: ChangeDetectorRef) {}
+  searchControl = new FormControl('');
+
+  sortKey: SortColumn = 'date';
+  sortDirection: 'asc' | 'desc' = 'asc';
+
+  fromDate = new FormControl('');
+  toDate = new FormControl('', minDateValidator(new Date(this.fromDate.value ? this.fromDate.value : new Date())));
+
+  dateForm = new FormGroup({
+    fromDate: this.fromDate,
+    toDate: this.toDate,
+  });
+
+  constructor(private service: AdminService, private router: Router, private cd: ChangeDetectorRef, private errorService: ErrorService) { }
 
   ngOnInit() {
+    let fromDate = new Date();
+    fromDate.setFullYear(fromDate.getFullYear());
+
+    let toDate = new Date();
+    toDate.setFullYear(toDate.getFullYear() + 100);
+
+    this.dateForm.controls.fromDate.setValue(this.formatDateInput(fromDate));
+    this.dateForm.controls.toDate.setValue(this.formatDateInput(toDate));
+
     this.loadBookings();
+
+    this.searchControl.valueChanges.subscribe(() => {
+      this.applyFilterAndSort();
+    });
   }
 
   loadBookings() {
-    this.service.getBookings(this.fromDate, this.toDate).subscribe(
-      b => {
-        this.bookings = b;
-        this.cd.detectChanges();
-        console.log(this.bookings);
+    const from = this.dateForm.value.fromDate;
+    const to = this.dateForm.value.toDate;
+
+    if (from && to) {
+      this.service.getBookings(from, to).subscribe({
+        next: (b) => {
+          this.bookings = b;
+          this.applyFilterAndSort();
+          this.cd.detectChanges();
+        },
+        error: (err) => this.errorService.error("Errore nel caricamento delle prenotazioni", 'Errore nel caricamento delle prenotazioni ' + err)
+      });
+    }
+  }
+
+  clearSearch() {
+    this.searchControl.setValue('');
+  }
+
+  sortBy(key: SortColumn) {
+    if (this.sortKey === key) {
+      this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.sortKey = key;
+      this.sortDirection = 'asc';
+    }
+    this.applyFilterAndSort();
+  }
+
+  applyFilterAndSort() {
+    let filtered = [...this.bookings];
+    const searchText = this.searchControl.value;
+
+    if (this.dateForm.invalid) {
+      this.errorService.warn("Date non valide", "Date non valide");
+      return;
+    }
+
+    if (searchText && searchText.trim() !== '') {
+      const search = searchText.toLowerCase().trim();
+      filtered = filtered.filter(b => {
+        const firstName = (b.user.firstName || '').toLowerCase();
+        const lastName = (b.user.lastName || '').toLowerCase();
+        const fullName = `${firstName} ${lastName}`;
+        return firstName.includes(search) || lastName.includes(search) || fullName.includes(search);
+      });
+    }
+
+    const key = this.sortKey;
+    const isAsc = this.sortDirection === 'asc';
+
+    this.sortedBookings = filtered.sort((a, b) => {
+      const valA = this.getSortValue(a, key);
+      const valB = this.getSortValue(b, key);
+
+      if (typeof valA === 'string' && typeof valB === 'string') {
+        return isAsc ? valA.localeCompare(valB, 'it') : valB.localeCompare(valA, 'it');
       }
-    );
+
+      if (valA < valB) return isAsc ? -1 : 1;
+      if (valA > valB) return isAsc ? 1 : -1;
+      return 0;
+    });
+  }
+
+  private getSortValue(booking: ReservationModel, key: SortColumn): string | number {
+    switch (key) {
+      case 'id':
+        return Number(booking.id) || 0;
+      case 'date':
+        const dateVal = booking.start;
+        return dateVal ? new Date(dateVal).getTime() : 0;
+      case 'spaceName':
+        return (booking.space.name).toLowerCase();
+      case 'userName':
+        const first = booking.user.firstName;
+        const last = booking.user.lastName;
+        return `${first} ${last}`.toLowerCase().trim();
+      default:
+        return '';
+    }
   }
 
   formatDateInput(date: Date): string {
@@ -45,97 +143,16 @@ export class Reservations implements OnInit {
     return `${year}-${month}-${day}`;
   }
 
-  setSort(column: SortColumn) {
-    if (this.sortColumn === column) {
-      this.sortAsc = !this.sortAsc;
-    } else {
-      this.sortColumn = column;
-      this.sortAsc = true;
-    }
-  }
-
-  get sortedBookings() {
-    return [...this.bookings].sort((a, b) => {
-      const left = this.getSortValue(a);
-      const right = this.getSortValue(b);
-
-      if (left === right) {
-        return 0;
-      }
-
-      const compareResult =
-        typeof left === 'number' && typeof right === 'number'
-          ? left - right
-          : String(left).localeCompare(String(right), 'it', { numeric: true, sensitivity: 'base' });
-
-      return this.sortAsc ? compareResult : -compareResult;
-    });
-  }
-
-  getSortValue(booking: any): string | number {
-    switch (this.sortColumn) {
-      case 'userName':
-        return this.getUserName(booking).toLowerCase();
-      case 'userSurname':
-        return this.getUserSurname(booking).toLowerCase();
-      case 'spaceName':
-        return this.getSpaceName(booking).toLowerCase();
-      case 'date':
-        return new Date(this.getDateValue(booking)).getTime() || 0;
-      case 'price':
-        return this.getPrice(booking);
-      default:
-        return '';
-    }
-  }
-
-  getUserName(booking: any): string {
-    return (
-      booking?.user?.firstName ||
-      ''
-    );
-  }
-
-  getUserSurname(booking: any): string {
-    return (
-      booking?.user?.lastName ||
-      ''
-    );
-  }
-
-  getSpaceName(booking: any): string {
-    return (
-      booking?.slot?.space?.name ||
-      ''
-    );
-  }
-
-  getDateValue(booking: any): string {
-    const value = booking?.start
-    if (!value) {
-      return '';
-    }
-
-    const parsed = new Date(value);
-    return isNaN(parsed.getTime()) ? String(value) : parsed.toISOString().split('T')[0];
-  }
-
-  getPrice(booking: any): number {
-    const price = booking?.price ?? booking?.amount ?? booking?.slot?.price ?? booking?.cost;
-    return Number(price) || 0;
-  }
-
-  cancelReservation(booking: any) {
-    const slotId = booking?.id
-    if (!slotId) {
-      return;
-    }
+  cancelReservation(booking: ReservationModel) {
+    const slotId = booking.id;
+    if (!slotId) return;
 
     this.service.removeBooking(slotId).subscribe({
-      next: () => this.loadBookings(),
-      error: (err) => {
-        console.error(err);
+      next: () => {
+        this.loadBookings();
+        this.errorService.success("Prenotazione cancellata con successo");
       },
+      error: (err) => this.errorService.error("Errore nel cancellare la prenotazione", err),
     });
   }
 
@@ -143,7 +160,7 @@ export class Reservations implements OnInit {
     this.router.navigate(['/reservations/new']);
   }
 
-  viewDetails(booking: any) { 
+  viewDetails(booking: ReservationModel) {
     this.router.navigate(['/reservations/view/', booking.id]);
   }
 }
