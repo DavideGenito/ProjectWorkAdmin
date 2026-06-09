@@ -3,27 +3,31 @@
 
     <form [formGroup]="userForm">
         <label for="firstName" class="form-label">Name</label>
-        <input type="text" class="form-control" id="firstName" formControlName="firstName" >
+        <input type="text" class="form-control" id="firstName" formControlName="firstName">
         <label for="lastName" class="form-label mt-3">Surname</label>
-        <input type="text" class="form-control" id="lastName" formControlName="lastName" >
+        <input type="text" class="form-control" id="lastName" formControlName="lastName">
         <label for="email" class="form-label mt-3">Email</label>
-        <input type="email" class="form-control" id="email" formControlName="email" >
-        <div *ngIf="userForm.get('email')?.hasError('emailExists') && userForm.get('email')?.touched" class="error-message">
-          <i class="bi bi-exclamation-circle"></i> Email già in uso
+        <input type="email" class="form-control" id="email" formControlName="email">
+        @if (userForm.controls['email']?.hasError('emailExists') && userForm.controls['email'].dirty) {
+        <div class="error-message">
+            <i class="bi bi-exclamation-circle"></i> Email già in uso
         </div>
+        }
         <label for="role" class="form-label mt-3" [class.d-none]="user">Role</label>
         <select class="form-select" id="role" formControlName="role" [class.d-none]="user">
             <option value="Cliente">Cliente</option>
             <option value="Amministrazione">Amministrazione</option>
         </select>
         <label for="credit" class="form-label mt-3">Credit</label>
-        <input type="number" class="form-control" id="credit" formControlName="credit" step=".01" >
+        <input type="number" class="form-control" id="credit" formControlName="credit" step=".01">
         <label for="password" class="form-label mt-3" [class.d-none]="user">Password</label>
-        <input type="password" class="form-control" [class.d-none]="user" id="password" formControlName="password" >
-        <button class="btn btn-success mt-4" type="submit" [class.d-none]="user" [disabled]="!userForm.valid" (click)="createUser()">
+        <input type="password" class="form-control" [class.d-none]="user" id="password" formControlName="password">
+        <button class="btn btn-success mt-4" type="submit" [class.d-none]="user" [disabled]="!userForm.valid"
+            (click)="createUser()">
             <i class="bi bi-check"></i> Create User
         </button>
-        <button class="btn btn-success mt-4" type="submit" [class.d-none]="!user" [disabled]="!userForm.valid || !userForm.dirty" (click)="editUser()">
+        <button class="btn btn-success mt-4" type="submit" [class.d-none]="!user"
+            [disabled]="!userForm.valid || !userForm.dirty" (click)="editUser()">
             <i class="bi bi-check"></i> Edit User
         </button>
         <button class="btn btn-secondary mt-4 ms-2" (click)="cancel()">
