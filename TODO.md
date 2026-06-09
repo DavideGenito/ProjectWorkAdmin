@@ -23,7 +23,7 @@
 - [x] Edit/create user se email uguale popup 
 - [x] Trim input
 - [x] Search reservation da implementare
-- [ ] Change password mi fa cliccare 2 volte
+- [x] Change password mi fa cliccare 2 volte
 - [x] Reset email che diventerà edit nel profilo
 - [x] Reset password profilo sistemare
 - [x] Nome nella sidebar
