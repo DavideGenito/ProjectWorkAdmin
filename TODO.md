@@ -17,7 +17,7 @@
 - [x] Migliorare new reservation
 - [x] Controllare problemi broweser create reservation
 - [x] Tabella scorre in se stessa
-- [ ] Login se non metto email e altri campi non solo login mettere "manca email" o cose del genere 
+- [ ] ~~Login se non metto email e altri campi non solo login mettere "manca email" o cose del genere~~
 - [x] Fascie orarie da sistemare reservation
 - [ ] ~~Edit reservation~~
 - [x] Edit/create user se email uguale popup 
@@ -28,8 +28,8 @@
 - [x] Reset password profilo sistemare
 - [x] Nome nella sidebar
 - [x] Implementa dashboard
-- [ ] Bottone per uscire da view reservation modificare la grafica
-- [ ] mettere una x al posto del bottone clear filtro perchè fa cagare
+- [x] Bottone per uscire da view reservation modificare la grafica
+- [x] mettere una x al posto del bottone clear filtro perchè fa cagare
 - [x] Aggiungere nessun user trovato alla tabella quando non ci sono utenti che corrispondono alla ricerca
 - [x] Per il filtro della ricerca per data delle reservation mettere come minimo di default il giorno di oggi
 - [x] Quando faccio una nuova reservation se seleziono come prima cosa l'utente mi escono delle righe vuote e non posso selezionare nulla
