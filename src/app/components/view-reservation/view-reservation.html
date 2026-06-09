@@ -1,41 +1,84 @@
 <div class="card border-0 shadow-sm mb-4 bg-body-tertiary">
   <div class="card-body p-4">
-    <h4 class="card-title mb-4">Dettagli Prenotazione</h4>
-
-    <div class="row border-bottom py-3">
-      <div class="col-sm-3 fw-bold text-muted"><i class="bi bi-person me-2"></i>Cliente</div>
-      <div class="col-sm-9">{{reservation?.user?.firstName}} {{reservation?.user?.lastName}}</div>
+    <div class="d-flex align-items-center justify-content-between mb-4 border-bottom pb-3">
+      <h4 class="card-title m-0 fw-bold">Dettagli Prenotazione</h4>
     </div>
 
-    <div class="row border-bottom py-3">
-      <div class="col-sm-3 fw-bold text-muted"><i class="bi bi-envelope me-2"></i>Email</div>
-      <div class="col-sm-9 ">{{reservation?.user?.email}}</div>
-    </div>
+    <div class="list-group list-group-flush rounded-3">
 
-    <div class="row border-bottom py-3">
-      <div class="col-sm-3 fw-bold text-muted"><i class="bi bi-door-open me-2"></i>Spazio</div>
-      <div class="col-sm-9 ">{{reservation?.space?.name}}</div>
-    </div>
-
-    <div class="row border-bottom py-3">
-      <div class="col-sm-3 fw-bold text-muted"><i class="bi bi-calendar-event me-2"></i>Data</div>
-      <div class="col-sm-9 ">{{reservation?.start|date:'dd/MM/yyyy'}}</div>
-    </div>
-
-    <div class="row border-bottom py-3">
-      <div class="col-sm-3 fw-bold text-muted"><i class="bi bi-clock me-2"></i>Orario</div>
-      <div class="col-sm-9 ">
-        {{reservation?.start|date:'HH:mm'}} - {{reservation?.end|date:'HH:mm'}}
+      <div class="list-group-item py-3 px-2">
+        <div class="row align-items-center">
+          <div class="col-sm-3 text-body-secondary fw-semibold d-flex align-items-center gap-2 mb-1 mb-sm-0">
+            <i class="bi bi-person fs-5 text-primary"></i> Cliente
+          </div>
+          <div class="col-sm-9 text-body fw-medium">
+            {{reservation?.user?.firstName}} {{reservation?.user?.lastName}}
+          </div>
+        </div>
       </div>
+
+      <div class="list-group-item py-3 px-2">
+        <div class="row align-items-center">
+          <div class="col-sm-3 text-body-secondary fw-semibold d-flex align-items-center gap-2 mb-1 mb-sm-0">
+            <i class="bi bi-envelope fs-5 text-primary"></i> Email
+          </div>
+          <div class="col-sm-9 text-body text-break">
+            {{reservation?.user?.email}}
+          </div>
+        </div>
+      </div>
+
+      <div class="list-group-item py-3 px-2">
+        <div class="row align-items-center">
+          <div class="col-sm-3 text-body-secondary fw-semibold d-flex align-items-center gap-2 mb-1 mb-sm-0">
+            <i class="bi bi-door-open fs-5 text-primary"></i> Spazio
+          </div>
+          <div class="col-sm-9 text-body fw-semibold text-primary-emphasis">
+            {{reservation?.space?.name}}
+          </div>
+        </div>
+      </div>
+
+      <div class="list-group-item py-3 px-2">
+        <div class="row align-items-center">
+          <div class="col-sm-3 text-body-secondary fw-semibold d-flex align-items-center gap-2 mb-1 mb-sm-0">
+            <i class="bi bi-calendar-event fs-5 text-primary"></i> Data
+          </div>
+          <div class="col-sm-9 text-body">
+            {{reservation?.start | date:'dd/MM/yyyy'}}
+          </div>
+        </div>
+      </div>
+
+      <div class="list-group-item py-3 px-2">
+        <div class="row align-items-center">
+          <div class="col-sm-3 text-body-secondary fw-semibold d-flex align-items-center gap-2 mb-1 mb-sm-0">
+            <i class="bi bi-clock fs-5 text-primary"></i> Orario
+          </div>
+          <div class="col-sm-9 text-body">
+            {{reservation?.start | date:'HH:mm'}} - {{reservation?.end | date:'HH:mm'}}
+          </div>
+        </div>
+      </div>
+
+      <div class="list-group-item py-3 px-2">
+        <div class="row align-items-center">
+          <div class="col-sm-3 text-body-secondary fw-semibold d-flex align-items-center gap-2 mb-1 mb-sm-0">
+            <i class="bi bi-cash-coin fs-5 text-success"></i> Importo
+          </div>
+          <div class="col-sm-9 fw-bold text-success fs-4">
+            {{reservation?.space?.slotPrice | currency:'EUR'}}
+          </div>
+        </div>
+      </div>
+
     </div>
 
-    <div class="row pt-3">
-      <div class="col-sm-3 fw-bold text-muted"><i class="bi bi-cash-coin me-2"></i>Importo</div>
-      <div class="col-sm-9 fw-bold text-primary fs-5">{{reservation?.space?.slotPrice | currency:'EUR'}}</div>
+    <div class="mt-4 pt-2">
+      <button class="btn btn-outline-secondary d-inline-flex align-items-center gap-2 px-4 py-2"
+        (click)="BackToReservations()">
+        <i class="bi bi-arrow-left"></i> Back to Reservations
+      </button>
     </div>
-
-    <button class="btn btn-secondary mt-4" (click)="BackToReservations()">
-      <i class="bi bi-arrow-left"></i> Back to Reservations
-    </button>
   </div>
 </div>

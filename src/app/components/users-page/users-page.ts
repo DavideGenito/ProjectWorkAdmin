@@ -88,6 +88,8 @@ export class UsersPage implements OnInit {
   eseguiResetPassword(nuovaPassword: string) {
     this.userService.ResetPassword(this.idUtenteSelezionato.toString(), nuovaPassword).subscribe(() => {
       this.mostraResetPass = false;
+      this.cd.detectChanges();
+      this.errorService.success("Password modificata con successo");
     });
   }
 
