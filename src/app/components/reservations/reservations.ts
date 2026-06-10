@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { ReservationModel } from '../../models/Reservation-Model';
 import { minDateValidator } from '../../models/min-date.validator';
 import { ErrorService } from '../../services/error-service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 type SortColumn = 'id' | 'date' | 'spaceName' | 'userName';
 
@@ -63,7 +64,7 @@ export class Reservations implements OnInit {
           this.applyFilterAndSort();
           this.cd.detectChanges();
         },
-        error: (err) => this.errorService.error("Errore nel caricamento delle prenotazioni", 'Errore nel caricamento delle prenotazioni ' + err)
+        error: (err: HttpErrorResponse) => this.errorService.error("Errore nel caricamento delle prenotazioni", err.message)
       });
     }
   }
@@ -152,7 +153,7 @@ export class Reservations implements OnInit {
         this.loadBookings();
         this.errorService.success("Prenotazione cancellata con successo");
       },
-      error: (err) => this.errorService.error("Errore nel cancellare la prenotazione", err),
+      error: (err: HttpErrorResponse) => this.errorService.error("Errore nel cancellare la prenotazione", err.message),
     });
   }
 

@@ -7,6 +7,7 @@ import { CurrencyPipe, DatePipe } from '@angular/common';
 import { ErrorService } from '../../services/error-service';
 import { Space } from '../../models/Space';
 import { Slots } from '../../models/Slots';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-dashboard',
@@ -63,7 +64,7 @@ export class Dashboard implements OnInit {
         this.numberUsers = utenti.length;
         this.cd.detectChanges();
       },
-      error: (err) => this.errorService.error("Errore nel recupero degli utenti", err)
+      error: (err: HttpErrorResponse) => this.errorService.error("Errore nel recupero degli utenti", err.message)
     });
   }
 
@@ -77,7 +78,7 @@ export class Dashboard implements OnInit {
         this.getTodayRevenue();
         this.cd.detectChanges();
       },
-      error: (err) => this.errorService.error("Errore nel recupero delle prenotazioni odierne", err)
+      error: (err: HttpErrorResponse) => this.errorService.error("Errore nel recupero delle prenotazioni odierne", err.message)
     });
   }
 
@@ -125,7 +126,7 @@ export class Dashboard implements OnInit {
 
         this.cd.detectChanges();
       },
-      error: (err) => this.errorService.error("Errore nel recupero delle prenotazioni recenti", err)
+      error: (err: HttpErrorResponse) => this.errorService.error("Errore nel recupero delle prenotazioni recenti", err.message)
     });
   }
 
@@ -161,10 +162,8 @@ export class Dashboard implements OnInit {
         });
 
         this.cd.detectChanges();
-
-        console.log(this.availabilityList);
       },
-      error: (err) => this.errorService.error("Errore nel recupero degli spazi", err)
+      error: (err: HttpErrorResponse) => this.errorService.error("Errore nel recupero degli spazi", err.message)
     });
   }
 }

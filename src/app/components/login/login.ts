@@ -28,7 +28,6 @@ export class Login {
       next: () => {
         this.userService.DettagliUtenteAutenticato().subscribe({
           next: (user) => {
-            console.log(user);
             if(user.role == "Amministrazione") {
               this.router.navigate(['/dashboard']);
             } else {

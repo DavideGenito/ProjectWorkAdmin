@@ -6,6 +6,7 @@ import { UserService } from '../../services/user-service';
 import { User } from '../../models/User';
 import { ErrorService } from '../../services/error-service';
 import { trimMinLengthValidator } from '../../models/trim-min-length.validator';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-create-user',
@@ -22,14 +23,14 @@ export class CreateUser {
     role: new FormControl('', Validators.required),
     password: new FormControl('', [Validators.required, Validators.minLength(8), trimMinLengthValidator(8)]),
   });
-  
+
   allUsers: User[] = [];
   user: User | undefined;
 
   constructor(
-    private route: ActivatedRoute, 
-    private router: Router, 
-    private userService: UserService, 
+    private route: ActivatedRoute,
+    private router: Router,
+    private userService: UserService,
     private errorService: ErrorService
   ) {
     let id = Number.parseInt(this.route.snapshot.params['id']);
@@ -72,7 +73,7 @@ export class CreateUser {
           onSuccess();
         }
       },
-      error: () => {
+      error: (err) => {
         this.errorService.error("Errore durante la verifica dell'email.");
       }
     });
@@ -90,9 +91,14 @@ export class CreateUser {
           Number.parseInt(this.userForm.value.credit?.toString() ?? '0'),
           this.userForm.value.role?.toString() ?? '',
           this.userForm.value.password?.toString().trim() ?? ''
-        ).subscribe(() => {
-          this.errorService.success("Utente creato con successo");
-          this.router.navigate(['/users']);
+        ).subscribe({
+          next: () => {
+            this.errorService.success("Utente creato con successo");
+            this.router.navigate(['/users']);
+          },
+          error: (err: HttpErrorResponse) => {
+            this.errorService.error(err.error || 'Errore durante la creazione dell\'utente', err.message);
+          }
         });
       });
     }
@@ -113,9 +119,14 @@ export class CreateUser {
         );
         newUser.id = this.user?.id ?? 0;
 
-        this.userService.ModificaUtente(newUser).subscribe(() => {
-          this.errorService.success("Utente modificato con successo");
-          this.router.navigate(['/users']);
+        this.userService.ModificaUtente(newUser).subscribe({
+          next: () => {
+            this.errorService.success("Utente modificato con successo");
+            this.router.navigate(['/users']);
+          },
+          error: (err: HttpErrorResponse) => {
+            this.errorService.error(err.error || 'Errore durante la modifica dell\'utente', err.message);
+          }
         });
       });
     }

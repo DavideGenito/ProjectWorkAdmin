@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, ErrorHandler, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -9,6 +9,7 @@ import { Space } from '../../models/Space';
 import { Slots } from '../../models/Slots';
 import { ErrorService } from '../../services/error-service';
 import { minDateValidator } from '../../models/min-date.validator';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-create-reservation',
@@ -74,7 +75,7 @@ export class CreateReservation implements OnInit {
         this.listaUtenti = users
          this.cd.detectChanges()
       },
-      error: (err) => this.errorService.error("Errore nel caricamento di tutti gli user" ,'Errore caricamento utenti ' + err)
+      error: (err: HttpErrorResponse) => this.errorService.error("Errore nel caricamento di tutti gli user" , err.message)
           
     });
   }
@@ -84,7 +85,7 @@ export class CreateReservation implements OnInit {
       next: (availableSpaces: any) => {
         this.spaces = availableSpaces;
       },
-      error: (err) => this.errorService.error("Errore caricamento spazi disponibili", 'Errore caricamento spazi ' + err)
+      error: (err: HttpErrorResponse) => this.errorService.error("Errore caricamento spazi disponibili", err.message)
     });
   }
 
@@ -93,7 +94,7 @@ export class CreateReservation implements OnInit {
       next: (res: any) => {
         this.slots = res.slots || res; 
       },
-      error: (err) => this.errorService.error("Errore caricamento degli slot disponibili" ,'Errore caricamento slot ' + err)
+      error: (err: HttpErrorResponse) => this.errorService.error("Errore caricamento degli slot disponibili" , err.message)
     });
   }
 
@@ -107,8 +108,8 @@ export class CreateReservation implements OnInit {
         this.errorService.success("Prenotazione creata con successo");
         this.router.navigate(['/reservations']);
       },
-      error: (err) => {
-        this.errorService.error("Errore nella creazione della prenotazione",'Errore nella creazione della prenotazione ' + err);
+      error: (err: HttpErrorResponse) => {
+        this.errorService.error(err.error || 'Errore durante la creazione della prenotazione', err.message);
       }
     });
   }

@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core'; // <--- 1. Importa 'signal'
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { tap } from 'rxjs';
@@ -57,7 +57,7 @@ export class AuthService {
     try {
       return !this.jwtHelper.isTokenExpired(token);
     } catch (e) {
-      this.errorService.error("Token non valido o scaduto", e instanceof Error ? e.message : String(e));
+      this.errorService.error("Token non valido o scaduto", e instanceof HttpErrorResponse ? e.message : String(e));
       return false;
     }
   }

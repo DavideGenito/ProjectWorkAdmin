@@ -4,6 +4,7 @@ import { AdminService } from '../../services/admin-service';
 import { User } from '../../models/User';
 import { ErrorService } from '../../services/error-service';
 import { AuthService } from '../../services/auth-service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-side-bar',
@@ -42,8 +43,8 @@ export class SideBar implements OnInit {
       next: () => {
         this.router.navigate(['/login']);
       },
-      error: (err) => {
-        this.errorService.error('Errore durante il logout', err);
+      error: (err: HttpErrorResponse) => {
+        this.errorService.error('Errore durante il logout', err.message);
       }
     });
   }
@@ -54,8 +55,8 @@ export class SideBar implements OnInit {
         this.currentUser = user;
         this.cd.detectChanges();
       },
-      error: (err: any) => {
-        this.errorService.error('Errore nel recupero dell\'utente corrente', err);
+      error: (err: HttpErrorResponse) => {
+        this.errorService.error('Errore nel recupero dell\'utente corrente', err.message);
       }
     });
   }
