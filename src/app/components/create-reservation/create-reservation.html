@@ -5,12 +5,12 @@
 
     <div class="form-group mt-3">
       <label for="utenteId">Seleziona Utente:</label>
-      <select id="utenteId" class="form-control mt-1" formControlName="utenteId">
+      <select id="utenteId" class="form-select mt-1" formControlName="utenteId">
         <option value="" disabled>Scegli un utente...</option>
         @for (utente of listaUtenti; track utente.id) {
-          <option [value]="utente.id">
-            {{ utente.firstName }} {{ utente.lastName }}
-          </option>
+        <option [value]="utente.id">
+          {{ utente.firstName }} {{ utente.lastName }}
+        </option>
         }
       </select>
     </div>
@@ -22,20 +22,20 @@
 
     <div class="form-group mt-3">
       <label for="spaceId">Postazione:</label>
-      <select id="spaceId" class="form-control mt-1" formControlName="spaceId">
+      <select id="spaceId" class="form-select mt-1" formControlName="spaceId">
         <option value="" disabled>Scegli la postazione...</option>
         @for (s of spaces; track s.id) {
-          <option [value]="s.id">{{ s.name }}</option>
+        <option [value]="s.id">{{ s.name }}</option>
         }
       </select>
     </div>
 
     <div class="form-group mt-3">
       <label for="slotId">Durata Prenotazione:</label>
-      <select id="slotId" class="form-control mt-1" formControlName="slotId">
+      <select id="slotId" class="form-select mt-1" formControlName="slotId">
         <option value="" disabled>Scegli la fascia oraria...</option>
         @for (s of slots; track s.id) {
-          <option [value]="s.id">{{ s.start | date:'HH:mm' }} - {{ s.end | date:'HH:mm' }}</option>
+        <option [value]="s.id">{{ s.start | date:'HH:mm' }} - {{ s.end | date:'HH:mm' }}</option>
         }
       </select>
     </div>
